@@ -263,6 +263,9 @@
     .book-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-top: 26px; }
     .book { display: flex; flex-direction: column; background: var(--paper); border: 1px solid var(--line); }
     .book-cover { aspect-ratio: 2 / 3; background: var(--sand); overflow: hidden; border-bottom: 1px solid var(--line); }
+    .book-cover a { display: block; width: 100%; height: 100%; text-decoration: none; }
+    .book-cover a:hover img { opacity: .9; }
+    .book.res .book-cover { aspect-ratio: 4 / 3; }
     .book-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .book-body { display: flex; flex-direction: column; flex: 1; padding: 18px 20px 20px; }
     .book h3 { margin: 6px 0 3px; font: 400 21px/1.3 var(--serif); }
@@ -311,6 +314,9 @@
     @media (max-width: 380px) {
       .book-grid { grid-template-columns: 1fr; }
     }
+    .book-grid.res-grid { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 1000px) { .book-grid.res-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .book-grid.res-grid { grid-template-columns: 1fr; } }
     /* ===== Content Manager ===== */
     body { min-height: 100vh; }
     button.button { font-family: var(--sans); cursor: pointer; }
@@ -623,7 +629,7 @@
 
     /* Chuẩn hóa một mục: ép kiểu, bỏ giá trị lạ, không bao giờ làm vỡ giao diện. */
     const STR_KEYS = ['id', 'title', 'slug', 'category', 'excerpt', 'description', 'cover', 'coverAlt',
-      'date', 'source', 'url', 'body', 'youtube', 'author', 'note', 'affiliateUrl', 'status'];
+      'date', 'source', 'url', 'body', 'youtube', 'author', 'note', 'affiliateUrl', 'kind', 'status'];
     function cleanItem(o) {
       const r = {};
       STR_KEYS.forEach(function (k) {
@@ -811,11 +817,30 @@
           actions));
     }
 
+    const KINDS = [['document', 'Tài liệu'], ['tool', 'Công cụ'], ['course', 'Khóa học'], ['other', 'Khác']];
+    function kindName(k) { const x = KINDS.filter(function (i) { return i[0] === k; })[0]; return x ? x[1] : ''; }
+    const DISCLOSURE = 'Một số liên kết trên trang này có thể là liên kết tiếp thị (affiliate). Mình có thể nhận một khoản hoa hồng nhỏ, không làm tăng chi phí của bạn.';
+    function linkedCover(cover, url) {
+      if (!url) return cover;
+      return h('a', { href: url, target: '_blank', rel: 'sponsored noopener noreferrer', tabindex: '-1', 'aria-hidden': 'true' }, cover);
+    }
+    function resourceCard(r) {
+      const url = safeUrl(r.url, { allowRelative: false });
+      const kl = kindName(r.kind), cl = catName(r.category);
+      return h('article', { class: 'book res' },
+        h('div', { class: 'book-cover' }, linkedCover(coverNode(r.cover, 'Hình minh họa: ' + r.title, kl || 'Tài liệu'), url)),
+        h('div', { class: 'book-body' },
+          (kl || cl) ? h('span', { class: 'small-label', text: [kl, cl].filter(Boolean).join(' · ') }) : null,
+          h('h3', { text: r.title }),
+          r.description ? h('p', { class: 'book-note', text: r.description }) : null,
+          url ? h('a', { class: 'text-link', href: url, target: '_blank', rel: 'sponsored noopener noreferrer', 'aria-label': 'Xem chi tiết: ' + r.title + ' (có thể là liên kết tiếp thị)' }, 'Xem chi tiết ', arrow(true)) : null));
+    }
+
     function bookCard(b) {
       const url = safeUrl(b.affiliateUrl, { allowRelative: false });
       const label = b.category ? catName(b.category) : '';
       return h('article', { class: 'book' },
-        h('div', { class: 'book-cover' }, coverNode(b.cover, 'Bìa sách ' + b.title, 'Sách')),
+        h('div', { class: 'book-cover' }, linkedCover(coverNode(b.cover, 'Bìa sách ' + b.title, 'Sách'), url)),
         h('div', { class: 'book-body' },
           label ? h('span', { class: 'small-label', text: label }) : null,
           h('h3', { text: b.title }),
@@ -844,9 +869,10 @@
       const TABS = {
         articles: { label: 'Bài viết', one: 'bài viết', type: 'article', prefix: 'art' },
         podcasts: { label: 'Podcast', one: 'tập podcast', type: 'podcast', prefix: 'pod' },
-        books: { label: 'Sách', one: 'cuốn sách', type: 'book', prefix: 'book' }
+        books: { label: 'Sách', one: 'cuốn sách', type: 'book', prefix: 'book' },
+        resources: { label: 'Tài liệu & công cụ', one: 'tài liệu/công cụ', type: 'resource', prefix: 'res' }
       };
-      const TAB_KEYS = ['articles', 'podcasts', 'books'];
+      const TAB_KEYS = ['articles', 'podcasts', 'books', 'resources'];
       const BODY_HELP = 'Gõ nội dung bình thường, mỗi đoạn cách nhau một dòng trống. Có thể dùng: "## Tiêu đề mục" cho tiêu đề nhỏ, "- " đầu dòng cho danh sách, "> " đầu dòng cho câu trích, **chữ đậm**, *chữ nghiêng*, [chữ hiển thị](https://link).';
       const M = { sha: null, data: null, source: null, importedTotal: 0, dirty: false, tab: 'articles', q: '', cat: 'all', status: 'all', form: null, undo: null };
 
@@ -927,7 +953,7 @@
         if (!M.data) { box.replaceChildren(h('span', null, h('span', { class: 'dot' }), 'Chưa nhập dữ liệu')); return; }
         box.replaceChildren.apply(box, [
           h('span', null, h('span', { class: M.dirty ? 'dot dirty' : 'dot' }), M.dirty ? 'Có thay đổi chưa xuất — nhớ bấm "Xuất content.json"' : 'Chưa có thay đổi nào'),
-          h('span', null, 'Hiện có ', h('strong', { text: String(M.data.articles.length) }), ' bài viết · ', h('strong', { text: String(M.data.podcasts.length) }), ' podcast · ', h('strong', { text: String(M.data.books.length) }), ' sách'),
+          h('span', null, 'Hiện có ', h('strong', { text: String(M.data.articles.length) }), ' bài viết · ', h('strong', { text: String(M.data.podcasts.length) }), ' podcast · ', h('strong', { text: String(M.data.books.length) }), ' sách · ', h('strong', { text: String(M.data.resources.length) }), ' tài liệu/công cụ'),
           M.source === 'blank' ? h('span', { text: 'Nguồn: dữ liệu trống (chưa nhập file)' }) : null].filter(Boolean));
       }
       window.addEventListener('beforeunload', function (e) { if (M.dirty) { e.preventDefault(); e.returnValue = ''; } });
@@ -943,7 +969,7 @@
         for (let t = 0; t < TAB_KEYS.length; t++) {
           const key = TAB_KEYS[t];
           const raw = parsed[key];
-          if (raw === undefined) { data[key] = []; notes.push('File không có mục "' + key + '" — đã tạo mục trống.'); continue; }
+          if (raw === undefined) { data[key] = []; if (key !== 'resources') notes.push('File không có mục "' + key + '" — đã tạo mục trống.'); continue; }
           if (!Array.isArray(raw)) return { error: 'Mục "' + key + '" trong file phải là một danh sách [ ... ] nhưng lại không phải. Có thể file đã bị chỉnh sửa tay sai cách.' };
           const out = [];
           for (let i = 0; i < raw.length; i++) {
@@ -990,7 +1016,7 @@
         $('import-error').replaceChildren();
         $('welcome').hidden = true; $('workspace').hidden = false;
         $('q').value = ''; $('flt-status').value = 'all';
-        const notes = [h('p', { style: 'margin:0', text: 'Đã nhập' + (fileName ? ' "' + fileName + '"' : '') + ': ' + M.data.articles.length + ' bài viết, ' + M.data.podcasts.length + ' podcast, ' + M.data.books.length + ' sách.' })];
+        const notes = [h('p', { style: 'margin:0', text: 'Đã nhập' + (fileName ? ' "' + fileName + '"' : '') + ': ' + M.data.articles.length + ' bài viết, ' + M.data.podcasts.length + ' podcast, ' + M.data.books.length + ' sách, ' + M.data.resources.length + ' tài liệu/công cụ.' })];
         if (res.notes.length) notes.push(h('ul', null, res.notes.map(function (n) { return h('li', { text: n }); })));
         $('import-notes').replaceChildren(h('div', { class: 'notice', style: 'margin:0 0 22px' }, notes));
         renderAll();
@@ -1013,7 +1039,7 @@
       $('btn-blank').addEventListener('click', async function () {
         const ok = await confirmDlg('Bắt đầu từ dữ liệu trống?', [h('p', { text: 'Chỉ dùng khi website CHƯA có nội dung nào. Nếu GitHub đã có file content.json có nội dung, hãy nhập file đó — nếu không, file bạn xuất ra sẽ ghi đè và làm mất nội dung cũ.' })], 'Tôi hiểu, bắt đầu trống', true);
         if (!ok) return;
-        M.data = { version: 1, articles: [], podcasts: [], books: [] };
+        M.data = { version: 1, articles: [], podcasts: [], books: [], resources: [] };
         M.source = 'blank'; M.importedTotal = 0; M.dirty = false;
         $('welcome').hidden = true; $('workspace').hidden = false; $('import-notes').replaceChildren();
         renderAll();
@@ -1050,6 +1076,9 @@
             if (!isCat(it.category)) add('category', 'Cần chọn chuyên mục để đăng tập podcast.');
             if (!date) add('date', 'Cần chọn ngày đăng để đăng tập podcast.');
           }
+        } else if (tab === 'resources') {
+          if (str(it.url).trim() && !safeUrl(str(it.url), { allowRelative: false })) add('url', 'Link không hợp lệ (cần bắt đầu bằng https://).');
+          if (str(it.category).trim() && !isCat(it.category)) add('category', 'Chuyên mục không hợp lệ.');
         } else {
           if (str(it.affiliateUrl).trim() && !safeUrl(str(it.affiliateUrl), { allowRelative: false })) add('affiliateUrl', 'Link mua sách không hợp lệ (cần bắt đầu bằng https://).');
           if (str(it.category).trim() && !isCat(it.category)) add('category', 'Chuyên mục không hợp lệ.');
@@ -1078,7 +1107,7 @@
           b.addEventListener('keydown', function (e) {
             const i = TAB_KEYS.indexOf(k);
             let n = -1;
-            if (e.key === 'ArrowRight') n = (i + 1) % 3; else if (e.key === 'ArrowLeft') n = (i + 2) % 3;
+            if (e.key === 'ArrowRight') n = (i + 1) % TAB_KEYS.length; else if (e.key === 'ArrowLeft') n = (i + TAB_KEYS.length - 1) % TAB_KEYS.length;
             if (n >= 0) { e.preventDefault(); M.tab = TAB_KEYS[n]; M.q = ''; M.cat = 'all'; M.status = 'all'; $('q').value = ''; $('flt-status').value = 'all'; renderAll(); $('tab-' + M.tab).focus(); }
           });
           box.append(b);
@@ -1096,6 +1125,7 @@
         if (it.featured) bits.push(h('span', { class: 'badge star', text: '★ Nổi bật' }));
         if (tab === 'podcasts' && it.episode) bits.push(h('span', { text: 'Tập ' + it.episode }));
         if (tab === 'books' && str(it.author)) bits.push(h('span', { text: str(it.author) }));
+        if (tab === 'resources' && kindName(it.kind)) bits.push(h('span', { text: kindName(it.kind) }));
         if (catName(it.category)) bits.push(h('span', { text: catName(it.category) }));
         const d = fmtDate(str(it.date));
         if (d) bits.push(h('span', { text: d })); else if (str(it.date)) bits.push(h('span', { text: 'Ngày: ' + str(it.date) }));
@@ -1210,6 +1240,17 @@
           { k: 'date', l: 'Ngày giới thiệu (tùy chọn)', t: 'date' },
           { k: 'featured', l: 'Nổi bật', t: 'checkbox', cl: 'Đưa sách này lên đầu danh sách' },
           { k: 'status', l: 'Trạng thái', t: 'status' }
+        ],
+        resources: [
+          { k: 'title', l: 'Tên tài liệu / công cụ', t: 'text', req: 1 },
+          { k: 'kind', l: 'Loại (tùy chọn)', t: 'select', opts: [['', '— Không chọn —']].concat(KINDS) },
+          { k: 'description', l: 'Mô tả ngắn / vì sao hữu ích', t: 'textarea', rows: 4, help: 'Viết bằng lời của bạn, ngắn gọn.' },
+          { k: 'cover', l: 'Link ảnh minh họa (tùy chọn)', t: 'text', ph: 'https://…', help: 'Bấm vào ảnh trên website sẽ mở link bên dưới.' },
+          { k: 'url', l: 'Link mở ra khi bấm vào (Shopee, Lazada, trang khác…)', t: 'text', ph: 'https://…', help: 'Website tự ghi rõ đây có thể là liên kết tiếp thị (affiliate).' },
+          { k: 'category', l: 'Chuyên mục (tùy chọn)', t: 'select', opts: catOpts('— Không chọn —') },
+          { k: 'date', l: 'Ngày thêm (tùy chọn)', t: 'date' },
+          { k: 'featured', l: 'Nổi bật', t: 'checkbox', cl: 'Đưa lên đầu danh sách' },
+          { k: 'status', l: 'Trạng thái', t: 'status' }
         ]
       };
       function fieldNode(spec, it) {
@@ -1272,6 +1313,7 @@
         return out;
       }
       function applyShowIf() {
+        if (!M.form || M.form.tab !== 'articles') return;
         const form = $('item-form');
         const r = form.querySelector('input[name="source"]:checked');
         const src = r ? r.value : 'internal';
@@ -1309,6 +1351,7 @@
           base = { id: uid(T.prefix), type: T.type, title: '', category: '', excerpt: '', description: '', cover: '', date: today(), featured: false, status: 'draft' };
           if (tab === 'articles') Object.assign(base, { slug: '', tags: [], source: 'internal', url: '', body: '' });
           if (tab === 'books') Object.assign(base, { author: '', note: '', affiliateUrl: '' });
+          if (tab === 'resources') Object.assign(base, { kind: '', url: '' });
           if (tab === 'podcasts') Object.assign(base, { youtube: '', episode: null });
         }
         M.form = { tab: tab, id: existing ? existing.id : null, base: base, dirty: false, slugAuto: tab === 'articles' && (!existing || !str(existing.slug)) };
@@ -1371,6 +1414,10 @@
         } else if (tab === 'podcasts') {
           nodes.push(h('div', { class: 'preview-block' }, h('h3', { text: 'Thẻ podcast' }), h('div', { class: 'preview-card-box' }, podcastCard(it, { preview: true })),
             h('p', { class: 'soft-note', style: 'margin-top:10px', text: 'Trên website, nút "Xem tập này" sẽ mở trình phát YouTube ngay trong thẻ (không tự phát). Bản xem trước chỉ hiển thị liên kết.' })));
+        } else if (tab === 'resources') {
+          nodes.push(h('div', { class: 'preview-block' }, h('h3', { text: 'Thẻ tài liệu / công cụ' }), h('div', { style: 'max-width:320px' }, resourceCard(it)),
+            h('p', { class: 'soft-note', style: 'margin-top:10px', text: 'Trên website, bấm vào ảnh hoặc "Xem chi tiết" sẽ mở link bạn đã nhập.' }),
+            h('p', { class: 'disclosure', text: DISCLOSURE })));
         } else {
           nodes.push(h('div', { class: 'preview-block' }, h('h3', { text: 'Thẻ sách' }), h('div', { style: 'max-width:260px' }, bookCard(it)),
             h('p', { class: 'disclosure', text: 'Một số liên kết trên trang này có thể là liên kết tiếp thị (affiliate). Mình có thể nhận một khoản hoa hồng nhỏ, không làm tăng chi phí của bạn.' })));
@@ -1384,7 +1431,7 @@
 
       /* ---------- XUẤT ---------- */
       function buildOutput() {
-        const out = { version: M.data.version || 1, articles: M.data.articles, podcasts: M.data.podcasts, books: M.data.books };
+        const out = { version: M.data.version || 1, articles: M.data.articles, podcasts: M.data.podcasts, books: M.data.books, resources: M.data.resources };
         Object.keys(M.data).forEach(function (k) { if (!(k in out)) out[k] = M.data[k]; });
         return out;
       }
@@ -1414,7 +1461,7 @@
         const text = JSON.stringify(buildOutput(), null, 2) + '\n';
         // tự kiểm tra: file xuất ra phải đọc lại được và đủ số mục
         const back = JSON.parse(text);
-        if (back.articles.length + back.podcasts.length + back.books.length !== total()) { toast('Lỗi kiểm tra nội bộ khi xuất file. Chưa tải xuống.', { error: true }); return; }
+        if (back.articles.length + back.podcasts.length + back.books.length + back.resources.length !== total()) { toast('Lỗi kiểm tra nội bộ khi xuất file. Chưa tải xuống.', { error: true }); return; }
         const blob = new Blob([text], { type: 'application/json;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = h('a', { href: url, download: 'content.json' });
@@ -1422,7 +1469,7 @@
         setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
         M.dirty = false; M.importedTotal = total(); M.source = 'imported'; renderAll();
         infoDlg('Đã xuất content.json', [
-          h('p', { text: 'File content.json (' + back.articles.length + ' bài viết, ' + back.podcasts.length + ' podcast, ' + back.books.length + ' sách) đã được tải về máy của bạn — thường nằm trong thư mục Downloads.' }),
+          h('p', { text: 'File content.json (' + back.articles.length + ' bài viết, ' + back.podcasts.length + ' podcast, ' + back.books.length + ' sách, ' + back.resources.length + ' tài liệu/công cụ) đã được tải về máy của bạn — thường nằm trong thư mục Downloads.' }),
           h('p', { style: 'margin-bottom:6px', text: 'Bước tiếp theo để website cập nhật:' }),
           h('ol', { class: 'steps', style: 'margin-top:0' },
             h('li', { text: 'Mở repository của website trên github.com.' }),
@@ -1508,7 +1555,7 @@
         try {
           const f = await ghFetchFile(c);
           if (f.missing) {
-            M.data = { version: 1, articles: [], podcasts: [], books: [] }; M.source = 'imported'; M.importedTotal = 0; M.dirty = false; M.sha = null;
+            M.data = { version: 1, articles: [], podcasts: [], books: [], resources: [] }; M.source = 'imported'; M.importedTotal = 0; M.dirty = false; M.sha = null;
             $('welcome').hidden = true; $('workspace').hidden = false; $('import-notes').replaceChildren(h('div', { class: 'notice', style: 'margin:0 0 22px', text: 'Repository chưa có content.json — bạn đang bắt đầu từ danh sách trống, file sẽ được tạo khi đăng.' })); renderAll(); return;
           }
           const keepDirty = M.dirty; M.dirty = false;

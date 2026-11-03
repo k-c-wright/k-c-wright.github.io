@@ -272,6 +272,9 @@
     .book-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-top: 26px; }
     .book { display: flex; flex-direction: column; background: var(--paper); border: 1px solid var(--line); }
     .book-cover { aspect-ratio: 2 / 3; background: var(--sand); overflow: hidden; border-bottom: 1px solid var(--line); }
+    .book-cover a { display: block; width: 100%; height: 100%; text-decoration: none; }
+    .book-cover a:hover img { opacity: .9; }
+    .book.res .book-cover { aspect-ratio: 4 / 3; }
     .book-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .book-body { display: flex; flex-direction: column; flex: 1; padding: 18px 20px 20px; }
     .book h3 { margin: 6px 0 3px; font: 400 21px/1.3 var(--serif); }
@@ -320,6 +323,9 @@
     @media (max-width: 380px) {
       .book-grid { grid-template-columns: 1fr; }
     }
+    .book-grid.res-grid { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 1000px) { .book-grid.res-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .book-grid.res-grid { grid-template-columns: 1fr; } }
     /* ===== Library, filters, empty states ===== */
     .empty-state {
       margin: 0; padding: 30px 0; border-top: 1px solid var(--line);
@@ -557,7 +563,8 @@
             <span class="small-label">Learning Resources</span>
             <h3>Tài liệu và công cụ học tập</h3>
             <p>Các nguồn tham khảo, framework và công cụ thực hành được chọn lọc từ quá trình học hỏi và trải nghiệm.</p>
-            <span class="status-line">Đang phát triển</span>
+            <span class="status-line" id="learning-status">Đang phát triển</span>
+            <div id="learning-items"></div>
           </article>
         </div>
       </div>
@@ -686,7 +693,7 @@
 
     /* Chuẩn hóa một mục: ép kiểu, bỏ giá trị lạ, không bao giờ làm vỡ giao diện. */
     const STR_KEYS = ['id', 'title', 'slug', 'category', 'excerpt', 'description', 'cover', 'coverAlt',
-      'date', 'source', 'url', 'body', 'youtube', 'author', 'note', 'affiliateUrl', 'status'];
+      'date', 'source', 'url', 'body', 'youtube', 'author', 'note', 'affiliateUrl', 'kind', 'status'];
     function cleanItem(o) {
       const r = {};
       STR_KEYS.forEach(function (k) {
@@ -874,11 +881,30 @@
           actions));
     }
 
+    const KINDS = [['document', 'Tài liệu'], ['tool', 'Công cụ'], ['course', 'Khóa học'], ['other', 'Khác']];
+    function kindName(k) { const x = KINDS.filter(function (i) { return i[0] === k; })[0]; return x ? x[1] : ''; }
+    const DISCLOSURE = 'Một số liên kết trên trang này có thể là liên kết tiếp thị (affiliate). Mình có thể nhận một khoản hoa hồng nhỏ, không làm tăng chi phí của bạn.';
+    function linkedCover(cover, url) {
+      if (!url) return cover;
+      return h('a', { href: url, target: '_blank', rel: 'sponsored noopener noreferrer', tabindex: '-1', 'aria-hidden': 'true' }, cover);
+    }
+    function resourceCard(r) {
+      const url = safeUrl(r.url, { allowRelative: false });
+      const kl = kindName(r.kind), cl = catName(r.category);
+      return h('article', { class: 'book res' },
+        h('div', { class: 'book-cover' }, linkedCover(coverNode(r.cover, 'Hình minh họa: ' + r.title, kl || 'Tài liệu'), url)),
+        h('div', { class: 'book-body' },
+          (kl || cl) ? h('span', { class: 'small-label', text: [kl, cl].filter(Boolean).join(' · ') }) : null,
+          h('h3', { text: r.title }),
+          r.description ? h('p', { class: 'book-note', text: r.description }) : null,
+          url ? h('a', { class: 'text-link', href: url, target: '_blank', rel: 'sponsored noopener noreferrer', 'aria-label': 'Xem chi tiết: ' + r.title + ' (có thể là liên kết tiếp thị)' }, 'Xem chi tiết ', arrow(true)) : null));
+    }
+
     function bookCard(b) {
       const url = safeUrl(b.affiliateUrl, { allowRelative: false });
       const label = b.category ? catName(b.category) : '';
       return h('article', { class: 'book' },
-        h('div', { class: 'book-cover' }, coverNode(b.cover, 'Bìa sách ' + b.title, 'Sách')),
+        h('div', { class: 'book-cover' }, linkedCover(coverNode(b.cover, 'Bìa sách ' + b.title, 'Sách'), url)),
         h('div', { class: 'book-body' },
           label ? h('span', { class: 'small-label', text: label }) : null,
           h('h3', { text: b.title }),
@@ -904,7 +930,7 @@
     /* ===== Trang chủ: tải content.json và dựng giao diện ===== */
     (function () {
       const PAGE_SIZE = 9;
-      const state = { articles: [], podcasts: [], books: [], type: 'all', cat: 'all', shown: PAGE_SIZE, ready: false, failed: false };
+      const state = { articles: [], podcasts: [], books: [], resources: [], type: 'all', cat: 'all', shown: PAGE_SIZE, ready: false, failed: false };
       const $ = function (id) { return document.getElementById(id); };
       const defaults = {
         title: document.title,
@@ -1024,18 +1050,15 @@
 
       /* ---- Reading list + Learning Resources ---- */
       function renderReading() {
-        const box = $('reading-books'), grid = $('reading-grid');
-        const sorted = sortNewest(state.books.filter(function (b) { return b.featured; }))
-          .concat(sortNewest(state.books.filter(function (b) { return !b.featured; })));
-        box.replaceChildren();
-        grid.classList.toggle('wide', sorted.length > 0);
-        if (!sorted.length) {
-          box.append(h('span', { class: 'soft-note', text: state.failed ? 'Chưa tải được danh sách sách lúc này.' : 'Danh sách sách đầu tiên đang được chuẩn bị.' }));
-          return;
-        }
-        box.append(
-          h('p', { class: 'disclosure', text: 'Một số liên kết trên trang này có thể là liên kết tiếp thị (affiliate). Mình có thể nhận một khoản hoa hồng nhỏ, không làm tăng chi phí của bạn.' }),
-          h('div', { class: 'book-grid' }, sorted.map(bookCard)));
+        const box = $('reading-books'), grid = $('reading-grid'), lbox = $('learning-items');
+        const order = function (list) { return sortNewest(list.filter(function (b) { return b.featured; })).concat(sortNewest(list.filter(function (b) { return !b.featured; }))); };
+        const books = order(state.books), res = order(state.resources);
+        box.replaceChildren(); lbox.replaceChildren();
+        grid.classList.toggle('wide', books.length > 0 || res.length > 0);
+        if (!books.length) box.append(h('span', { class: 'soft-note', text: state.failed ? 'Chưa tải được danh sách sách lúc này.' : 'Danh sách sách đầu tiên đang được chuẩn bị.' }));
+        else box.append(h('p', { class: 'disclosure', text: DISCLOSURE }), h('div', { class: 'book-grid' }, books.map(bookCard)));
+        $('learning-status').hidden = res.length > 0;
+        if (res.length) lbox.append(h('p', { class: 'disclosure', text: DISCLOSURE }), h('div', { class: 'book-grid res-grid' }, res.map(resourceCard)));
       }
 
       /* ---- Trang bài viết (nội bộ) qua #/bai-viet/<slug> ---- */
@@ -1109,6 +1132,7 @@
             state.articles = arr(data.articles).map(cleanItem).filter(ok);
             state.podcasts = arr(data.podcasts).map(cleanItem).filter(ok);
             state.books = arr(data.books).map(cleanItem).filter(ok);
+            state.resources = arr(data.resources).map(cleanItem).filter(ok);
           })
           .catch(function (err) { state.failed = true; console.warn('Không tải được content.json:', err && err.message); })
           .then(function () {
