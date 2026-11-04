@@ -1,7 +1,23 @@
 {
   "version": 1,
   "articles": [],
-  "podcasts": [],
+  "podcasts": [
+    {
+      "id": "pod-mw1s2y2zkt71",
+      "type": "podcast",
+      "title": "Hồi ấy mình gan thật.",
+      "category": "notes-on-becoming",
+      "excerpt": "",
+      "description": "Hồi ấy mình gan thật, hay là hồi ấy mình chưa biết sợ? :))\n\nNăm 26 tuổi, mình một mình sang Thái Lan, bắt đầu một cuộc sống mới ở một nơi xa lạ. Khi nhìn lại, mình nhớ những chuyện dở khóc dở cười, những lần tưởng mình không làm nổi, và cả những ngày mình đã cố gắng nhiều hơn mình nghĩ.\n\nĐây không chỉ là câu chuyện về việc đi xa hay trưởng thành. Mà còn là câu chuyện về cách mình học tin vào bản thân, nhận ra giới hạn của mình và hiểu hơn về con người mà mình đang trở thành.",
+      "cover": "images/anh-mw1s60wr.jpg",
+      "date": "2026-11-04",
+      "featured": false,
+      "status": "published",
+      "youtube": "https://youtu.be/SZ_fsSynkO4?si=Qt30Z7sy2s8mmc_g",
+      "episode": null,
+      "coverAlt": ""
+    }
+  ],
   "books": [
     {
       "id": "book-mw1rsi125esk",
