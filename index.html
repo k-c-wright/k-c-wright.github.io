@@ -722,8 +722,9 @@
         h('span', { class: 'brand-mark', text: 'K.' }),
         label ? h('small', { text: label }) : null);
     }
+    const PREVIEW_IMAGES = {}; /* chỉ content-manager dùng: ảnh vừa chọn từ máy, chưa lên GitHub */
     function coverNode(url, alt, label) {
-      const src = safeUrl(url);
+      const src = PREVIEW_IMAGES[url] || safeUrl(url);
       if (!src) return fallbackCover(label);
       const img = h('img', { src: src, alt: alt || '', loading: 'lazy', decoding: 'async' });
       img.addEventListener('error', function () { img.replaceWith(fallbackCover(label)); }, { once: true });

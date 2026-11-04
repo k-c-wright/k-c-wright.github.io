@@ -409,6 +409,13 @@
       .tab { padding: 11px 14px; }
       .toolbar select { flex: 1 1 140px; }
     }
+
+    .img-field { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 16px; margin-bottom: 8px; }
+    .img-prev { min-width: 70px; min-height: 70px; max-width: 160px; }
+    .img-prev:empty { display: none; }
+    .img-prev img { display: block; max-width: 160px; max-height: 150px; border: 1px solid var(--line); }
+    .img-prev .cover-fallback { width: 90px; height: 90px; }
+    .img-actions { display: flex; gap: 8px; flex-wrap: wrap; }
   </style>
 </head>
 <body>
@@ -650,8 +657,9 @@
         h('span', { class: 'brand-mark', text: 'K.' }),
         label ? h('small', { text: label }) : null);
     }
+    const PREVIEW_IMAGES = {}; /* chỉ content-manager dùng: ảnh vừa chọn từ máy, chưa lên GitHub */
     function coverNode(url, alt, label) {
-      const src = safeUrl(url);
+      const src = PREVIEW_IMAGES[url] || safeUrl(url);
       if (!src) return fallbackCover(label);
       const img = h('img', { src: src, alt: alt || '', loading: 'lazy', decoding: 'async' });
       img.addEventListener('error', function () { img.replaceWith(fallbackCover(label)); }, { once: true });
@@ -902,6 +910,27 @@
         return s;
       }
 
+      const PENDING = {}; /* ảnh chọn từ máy, chờ tải lên khi bấm Đăng */
+      async function processImage(file) {
+        if (!/^image\//.test(file.type)) throw new Error('Tệp này không phải ảnh. Hãy chọn ảnh JPG hoặc PNG.');
+        const url = URL.createObjectURL(file);
+        try {
+          const img = await new Promise(function (res, rej) { const i = new Image(); i.onload = function () { res(i); }; i.onerror = function () { rej(new Error('Không đọc được ảnh này. Hãy thử ảnh JPG hoặc PNG khác.')); }; i.src = url; });
+          const sc = Math.min(1, 1000 / Math.max(img.naturalWidth, img.naturalHeight));
+          const cv = document.createElement('canvas');
+          cv.width = Math.max(1, Math.round(img.naturalWidth * sc)); cv.height = Math.max(1, Math.round(img.naturalHeight * sc));
+          const cx = cv.getContext('2d'); cx.fillStyle = '#fff'; cx.fillRect(0, 0, cv.width, cv.height); cx.drawImage(img, 0, 0, cv.width, cv.height);
+          const blob = await new Promise(function (r) { cv.toBlob(r, 'image/jpeg', 0.86); });
+          if (!blob) throw new Error('Không xử lý được ảnh này.');
+          return blob;
+        } finally { URL.revokeObjectURL(url); }
+      }
+      function usedPending() {
+        const used = [];
+        TAB_KEYS.forEach(function (k) { M.data[k].forEach(function (it) { if (PENDING[str(it.cover)] && used.indexOf(it.cover) === -1) used.push(it.cover); }); });
+        return used;
+      }
+      function blobToB64(blob) { return new Promise(function (res, rej) { const r = new FileReader(); r.onload = function () { res(String(r.result).split(',')[1]); }; r.onerror = rej; r.readAsDataURL(blob); }); }
       function fill(el) {
         el.replaceChildren();
         for (let i = 1; i < arguments.length; i++) [].concat(arguments[i]).forEach(function (c) { if (c !== null && c !== undefined && c !== false) el.append(c); });
@@ -1219,7 +1248,7 @@
           { k: 'category', l: 'Chuyên mục', t: 'select', req: 1, opts: catOpts('— Chọn chuyên mục —') },
           { k: 'tags', l: 'Thẻ (tùy chọn)', t: 'text', help: 'Cách nhau bằng dấu phẩy. Ví dụ: động lực, thói quen' },
           { k: 'excerpt', l: 'Mô tả ngắn', t: 'textarea', rows: 3, help: '1–2 câu hiển thị ở danh sách bài viết.' },
-          { k: 'cover', l: 'Link ảnh bìa (tùy chọn)', t: 'text', ph: 'https://…', help: 'Nếu để trống, website dùng khung ảnh mặc định.' },
+          { k: 'cover', l: 'Ảnh bìa (tùy chọn)', t: 'image' },
           { k: 'coverAlt', l: 'Mô tả ảnh bìa (tùy chọn)', t: 'text', help: 'Giúp người dùng đọc màn hình hiểu ảnh.' },
           { k: 'date', l: 'Ngày đăng', t: 'date', req: 1 },
           { k: 'source', l: 'Bài viết nằm ở đâu?', t: 'radio', opts: [['internal', 'Viết trực tiếp trên website này'], ['external', 'Đã đăng ở trang khác (dán link)']] },
@@ -1234,7 +1263,7 @@
           { k: 'category', l: 'Chuyên mục', t: 'select', req: 1, opts: catOpts('— Chọn chuyên mục —') },
           { k: 'description', l: 'Mô tả ngắn', t: 'textarea', rows: 3 },
           { k: 'youtube', l: 'Link YouTube', t: 'text', ph: 'https://www.youtube.com/watch?v=…', help: 'Nếu để trống, website hiển thị "Liên kết video sẽ được cập nhật". Video không tự phát.' },
-          { k: 'cover', l: 'Link ảnh bìa (tùy chọn)', t: 'text', ph: 'https://…', help: 'Nếu để trống mà có link YouTube, website dùng ảnh thu nhỏ của video.' },
+          { k: 'cover', l: 'Ảnh bìa (tùy chọn)', t: 'image' },
           { k: 'coverAlt', l: 'Mô tả ảnh bìa (tùy chọn)', t: 'text' },
           { k: 'date', l: 'Ngày đăng', t: 'date', req: 1 },
           { k: 'featured', l: 'Nổi bật', t: 'checkbox', cl: 'Đánh dấu là nội dung nổi bật' },
@@ -1243,7 +1272,7 @@
         books: [
           { k: 'title', l: 'Tên sách', t: 'text', req: 1 },
           { k: 'author', l: 'Tác giả', t: 'text', req: 1 },
-          { k: 'cover', l: 'Link ảnh bìa sách (tùy chọn)', t: 'text', ph: 'https://…' },
+          { k: 'cover', l: 'Ảnh bìa (tùy chọn)', t: 'image' },
           { k: 'note', l: 'Vì sao đáng đọc? (ghi chú của bạn)', t: 'textarea', rows: 4, help: 'Viết bằng lời của bạn, ngắn gọn.' },
           { k: 'category', l: 'Chuyên mục (tùy chọn — chỉ để phân loại, có thể bỏ trống)', t: 'select', opts: catOpts('— Không chọn —') },
           { k: 'affiliateUrl', l: 'Link mua / tìm hiểu thêm (tùy chọn)', t: 'text', ph: 'https://…', help: 'Website tự ghi rõ đây có thể là liên kết tiếp thị (affiliate).' },
@@ -1255,7 +1284,7 @@
           { k: 'title', l: 'Tên tài liệu / công cụ', t: 'text', req: 1 },
           { k: 'kind', l: 'Loại (tùy chọn)', t: 'select', opts: [['', '— Không chọn —']].concat(KINDS) },
           { k: 'description', l: 'Mô tả ngắn / vì sao hữu ích', t: 'textarea', rows: 4, help: 'Viết bằng lời của bạn, ngắn gọn.' },
-          { k: 'cover', l: 'Link ảnh minh họa (tùy chọn)', t: 'text', ph: 'https://…', help: 'Bấm vào ảnh trên website sẽ mở link bên dưới.' },
+          { k: 'cover', l: 'Ảnh bìa (tùy chọn)', t: 'image' },
           { k: 'url', l: 'Link mở ra khi bấm vào (Shopee, Lazada, trang khác…)', t: 'text', ph: 'https://…', help: 'Website tự ghi rõ đây có thể là liên kết tiếp thị (affiliate).' },
           { k: 'category', l: 'Chuyên mục (tùy chọn — chỉ để phân loại, có thể bỏ trống)', t: 'select', opts: catOpts('— Không chọn —') },
           { k: 'date', l: 'Ngày thêm (tùy chọn)', t: 'date' },
@@ -1285,6 +1314,36 @@
             row.append(h('label', { for: id + '-' + i }, r, o[1]));
           });
           wrap.append(h('span', { class: 'legend', style: 'display:block;margin-bottom:6px;font-size:12px;font-weight:600', text: spec.l }), row);
+          return wrap;
+        } else if (spec.t === 'image') {
+          input = h('input', { type: 'text', id: id, name: spec.k, placeholder: 'hoặc dán link ảnh…', autocomplete: 'off' });
+          input.value = str(v);
+          const prev = h('div', { class: 'img-prev' });
+          const fileIn = h('input', { type: 'file', accept: 'image/*', hidden: true, 'aria-label': 'Chọn ảnh từ máy' });
+          const pick = h('button', { type: 'button', class: 'button button-secondary button-small', text: 'Chọn ảnh từ máy' });
+          const clr = h('button', { type: 'button', class: 'button button-secondary button-small', text: 'Xóa ảnh' });
+          const refresh = function () { prev.replaceChildren(); if (input.value.trim()) prev.append(coverNode(input.value.trim(), '', '')); clr.hidden = !input.value.trim(); };
+          input.addEventListener('input', refresh);
+          clr.addEventListener('click', function () { input.value = ''; input.dispatchEvent(new Event('input', { bubbles: true })); });
+          pick.addEventListener('click', function () {
+            if (!ghGet()) { toast('Cần kết nối GitHub (nút "Kết nối GitHub") để tải ảnh từ máy. Hoặc dán link ảnh vào ô bên dưới.', { error: true, ms: 7000 }); return; }
+            fileIn.value = ''; fileIn.click();
+          });
+          fileIn.addEventListener('change', async function () {
+            const f = fileIn.files[0]; if (!f) return;
+            try {
+              const blob = await processImage(f);
+              const t = $('item-form').elements.title;
+              const path = 'images/' + (slugify(t ? t.value : '') || 'anh').slice(0, 40) + '-' + Date.now().toString(36) + '.jpg';
+              PENDING[path] = { blob: blob }; PREVIEW_IMAGES[path] = URL.createObjectURL(blob);
+              input.value = path; input.dispatchEvent(new Event('input', { bubbles: true }));
+              toast('Đã chọn ảnh. Ảnh sẽ được tải lên website khi bạn bấm "Đăng lên website".');
+            } catch (err) { toast(err.message, { error: true, ms: 7000 }); }
+          });
+          refresh();
+          wrap.append(label, h('div', { class: 'img-field' }, prev, h('div', { class: 'img-actions' }, pick, clr), fileIn), input,
+            h('p', { class: 'help', text: 'Ảnh được tự thu nhỏ (tối đa 1000 px) cho nhẹ. Nếu để trống, website dùng khung ảnh mặc định.' }),
+            h('div', { class: 'field-error', id: id + '-err', role: 'alert' }));
           return wrap;
         } else if (spec.t === 'checkbox') {
           const c = h('input', { type: 'checkbox', id: id, name: spec.k });
@@ -1467,6 +1526,8 @@
         return true;
       }
       async function exportJson() {
+        const pend = usedPending();
+        if (pend.length) { infoDlg('Có ảnh chọn từ máy', [h('p', { text: 'Có ' + pend.length + ' ảnh bạn chọn từ máy. "Tải file về" không kèm ảnh nên website sẽ bị thiếu ảnh. Hãy dùng nút "Đăng lên website" (cần kết nối GitHub), hoặc đổi sang dán link ảnh.' })]); return; }
         if (!(await preflight())) return;
         const text = JSON.stringify(buildOutput(), null, 2) + '\n';
         // tự kiểm tra: file xuất ra phải đọc lại được và đủ số mục
@@ -1586,6 +1647,17 @@
               const ok = await confirmDlg('Ghi đè nội dung đang có trên website?', [h('p', { text: 'Bạn chưa tải nội dung từ website trong phiên làm việc này. Nếu tiếp tục, bản của bạn sẽ thay thế hoàn toàn content.json hiện có trên GitHub. Nên bấm "Tải nội dung từ website" trước.' })], 'Tôi hiểu, vẫn đăng', true);
               if (!ok) return;
             }
+          }
+          const imgs = usedPending();
+          for (let i = 0; i < imgs.length; i++) {
+            toast('Đang tải ảnh ' + (i + 1) + '/' + imgs.length + '…', { ms: 20000 });
+            let ir;
+            try {
+              ir = await fetch('https://api.github.com/repos/' + encodeURIComponent(c.owner) + '/' + encodeURIComponent(c.repo) + '/contents/' + imgs[i].split('/').map(encodeURIComponent).join('/'),
+                { method: 'PUT', headers: Object.assign({ 'Content-Type': 'application/json' }, ghHeaders(c)), body: JSON.stringify({ message: 'Thêm ảnh (Content Manager)', content: await blobToB64(PENDING[imgs[i]].blob), branch: c.branch }) });
+            } catch (e) { throw new Error('Không kết nối được GitHub khi tải ảnh. Thay đổi của bạn vẫn còn ở đây — hãy thử lại.'); }
+            if (!ir.ok && ir.status !== 422) throw new Error('Không tải được ảnh lên GitHub: ' + ghMsg(ir.status) + ' (Nội dung chưa được đăng.)');
+            delete PENDING[imgs[i]];
           }
           const body = { message: 'Cập nhật nội dung (Content Manager)', content: b64encode(JSON.stringify(buildOutput(), null, 2) + '\n'), branch: c.branch };
           if (sha) body.sha = sha;
