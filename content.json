@@ -2,6 +2,22 @@
   "version": 1,
   "articles": [],
   "podcasts": [],
-  "books": [],
+  "books": [
+    {
+      "id": "book-mw1rsi125esk",
+      "type": "book",
+      "title": "Quyền Lực Đích Thực",
+      "category": "",
+      "excerpt": "",
+      "description": "",
+      "cover": "images/anh-mw1rspf4.jpg",
+      "date": "2026-11-04",
+      "featured": false,
+      "status": "draft",
+      "author": "Thích Nhất Hạnh",
+      "note": "Cuốn sách này đã giúp mình hiểu \"quyền lưc\" thật sự dành cho chúng ta là gì và cách để xây dựng nó bền vững, lâu bền và đắc nhân tâm. Nó đã tạo nên tư duy quản lý cho mình. Cảm ơn Thầy.",
+      "affiliateUrl": "https://shopee.vn/Sách-Quyền-Lực-Đích-Thực-i.633022203.16299286655"
+    }
+  ],
   "resources": []
 }
