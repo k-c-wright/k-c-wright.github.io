@@ -353,7 +353,6 @@
     .featured-grid.single { grid-template-columns: minmax(0, 760px); }
     .latest-item h3 a { text-decoration: none; }
     .latest-item h3 a:hover { color: var(--green-light); }
-    .reading-grid.wide { grid-template-columns: 1fr; }
     .reading-card .status-line { display: inline-block; margin-top: 14px; color: var(--rust); font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
     .reading-card .soft-note { display: block; margin-top: 14px; }
     .article-view { padding: 64px 0 96px; }
@@ -366,6 +365,16 @@
 
     .owner-edit { position: fixed; right: 18px; bottom: 18px; z-index: 30; padding: 10px 16px; border: 1px solid var(--green); background: var(--paper); color: var(--green); font: 700 12px var(--sans); text-decoration: none; box-shadow: 0 6px 22px rgba(37,41,35,.18); }
     .owner-edit:hover { background: var(--green); color: #fff; }
+
+    .cover-strip { display: flex; gap: 10px; margin: 18px 0 16px; }
+    .cover-strip a { display: block; width: 62px; aspect-ratio: 2 / 3; overflow: hidden; border: 1px solid var(--line); background: var(--sand); text-decoration: none; }
+    .cover-strip.rs a { width: 92px; aspect-ratio: 4 / 3; }
+    .cover-strip img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .cover-strip .cover-fallback { padding: 2px; }
+    .cover-strip .brand-mark { width: 26px; height: 26px; font-size: 11px; }
+    .list-view .article-lead { max-width: 640px; }
+    .list-view .disclosure { margin: 6px 0 4px; }
+    #article-view h1:focus { outline: none; }
   </style>
 </head>
 <body>
@@ -1049,16 +1058,37 @@
       }
 
       /* ---- Reading list + Learning Resources ---- */
+      /* ---- Ô Reading Corner / Learning Resources ở trang chủ = cửa vào trang danh sách ---- */
+      function orderList(list) {
+        return sortNewest(list.filter(function (b) { return b.featured; })).concat(sortNewest(list.filter(function (b) { return !b.featured; })));
+      }
+      function teaser(box, list, href, noun, emptyText, kind) {
+        box.replaceChildren();
+        if (!list.length) { box.append(h('span', { class: 'soft-note', text: emptyText })); return; }
+        const strip = h('div', { class: 'cover-strip ' + kind });
+        list.slice(0, 4).forEach(function (it) { strip.append(h('a', { href: href, tabindex: '-1', 'aria-hidden': 'true' }, coverNode(it.cover, '', ''))); });
+        box.append(strip, h('a', { class: 'text-link', href: href }, 'Xem ' + list.length + ' ' + noun + ' ', arrow(false)));
+      }
       function renderReading() {
-        const box = $('reading-books'), grid = $('reading-grid'), lbox = $('learning-items');
-        const order = function (list) { return sortNewest(list.filter(function (b) { return b.featured; })).concat(sortNewest(list.filter(function (b) { return !b.featured; }))); };
-        const books = order(state.books), res = order(state.resources);
-        box.replaceChildren(); lbox.replaceChildren();
-        grid.classList.toggle('wide', books.length > 0 || res.length > 0);
-        if (!books.length) box.append(h('span', { class: 'soft-note', text: state.failed ? 'Chưa tải được danh sách sách lúc này.' : 'Danh sách sách đầu tiên đang được chuẩn bị.' }));
-        else box.append(h('p', { class: 'disclosure', text: DISCLOSURE }), h('div', { class: 'book-grid' }, books.map(bookCard)));
+        const books = orderList(state.books), res = orderList(state.resources);
+        teaser($('reading-books'), books, '#/sach', 'cuốn sách', state.failed ? 'Chưa tải được danh sách sách lúc này.' : 'Danh sách sách đầu tiên đang được chuẩn bị.', 'bk');
         $('learning-status').hidden = res.length > 0;
-        if (res.length) lbox.append(h('p', { class: 'disclosure', text: DISCLOSURE }), h('div', { class: 'book-grid res-grid' }, res.map(resourceCard)));
+        teaser($('learning-items'), res, '#/tai-lieu', 'tài liệu & công cụ', '', 'rs');
+      }
+      function openList(kind) {
+        const view = $('article-view');
+        articleOpen = true; $('home').hidden = true; view.hidden = false; view.replaceChildren();
+        if (!state.ready) { view.append(h('div', { class: 'wrap' }, h('p', { class: 'soft-note', text: 'Đang tải…' }))); return; }
+        const cfg = kind === 'sach'
+          ? { label: 'Reading Corner', title: 'Những cuốn sách đáng đọc', intro: 'Sách về tâm lý, hành vi, lãnh đạo, tư duy hệ thống và phát triển bản thân — kèm ghi chú của K.C. Wright.', list: orderList(state.books), card: bookCard, grid: 'book-grid', empty: 'Danh sách sách đầu tiên đang được chuẩn bị.' }
+          : { label: 'Learning Resources', title: 'Tài liệu và công cụ học tập', intro: 'Các nguồn tham khảo, framework và công cụ thực hành được chọn lọc từ quá trình học hỏi và trải nghiệm.', list: orderList(state.resources), card: resourceCard, grid: 'book-grid res-grid', empty: 'Danh sách này đang được chuẩn bị.' };
+        view.append(h('div', { class: 'wrap list-view' },
+          h('a', { class: 'back-link', href: '#doc-va-hoc', text: '← Quay lại' }),
+          h('header', { class: 'article-head' }, h('p', { class: 'eyebrow', text: cfg.label }), h('h1', { text: cfg.title }), h('p', { class: 'article-lead', text: cfg.intro })),
+          cfg.list.length ? [h('p', { class: 'disclosure', text: DISCLOSURE }), h('div', { class: cfg.grid }, cfg.list.map(cfg.card))] : h('p', { class: 'empty-state', text: cfg.empty })));
+        setMeta(cfg.title + ' – K.C. Wright', defaults.desc);
+        window.scrollTo(0, 0);
+        const hh = view.querySelector('h1'); hh.setAttribute('tabindex', '-1'); hh.focus({ preventScroll: true });
       }
 
       /* ---- Trang bài viết (nội bộ) qua #/bai-viet/<slug> ---- */
@@ -1103,7 +1133,9 @@
       }
       function route() {
         const m = /^#\/bai-viet\/(.+)$/.exec(location.hash);
-        if (m) { let slug = m[1]; try { slug = decodeURIComponent(slug); } catch (e) { } openArticle(slug); } else closeArticle();
+        const l = /^#\/(sach|tai-lieu)\/?$/.exec(location.hash);
+        if (l) openList(l[1]);
+        else if (m) { let slug = m[1]; try { slug = decodeURIComponent(slug); } catch (e) { } openArticle(slug); } else closeArticle();
       }
 
       /* ---- Thẻ chuyên mục → lọc thư viện ---- */
@@ -1138,13 +1170,13 @@
           .then(function () {
             state.ready = true;
             renderAll();
-            if (/^#\/bai-viet\//.test(location.hash)) route(); else if (location.hash) scrollToHash();
+            if (/^#\/(bai-viet\/|sach|tai-lieu)/.test(location.hash)) route(); else if (location.hash) scrollToHash();
           });
       }
 
       try { if (localStorage.getItem('kc_owner') === '1') $('owner-edit').hidden = false; } catch (e) { }
       window.addEventListener('hashchange', route);
-      if (/^#\/bai-viet\//.test(location.hash)) route();
+      if (/^#\/(bai-viet\/|sach|tai-lieu)/.test(location.hash)) route();
       load();
     })();
   </script>

@@ -463,10 +463,11 @@
           </select>
           <button type="button" class="button button-primary" id="btn-add">+ Thêm mới</button>
         </div>
+        <p class="notice" id="tab-help" style="margin:0 0 16px" hidden></p>
         <p class="soft-note" id="list-count" aria-live="polite"></p>
         <ul class="rows" id="rows"></ul>
       </div>
-      <p class="mgr-footnote">Mọi thay đổi chỉ nằm trong trình duyệt này cho đến khi bạn bấm <strong>Xuất content.json</strong> và tải file lên GitHub. Đóng trang trước khi xuất sẽ làm mất thay đổi.</p>
+      <p class="mgr-footnote">Mọi thay đổi chỉ nằm trong trình duyệt này cho đến khi bạn bấm <strong>Đăng lên website</strong> (hoặc <strong>Tải file về</strong> rồi tự tải lên GitHub). Đóng trang trước đó sẽ làm mất thay đổi.</p>
     </section>
   </main>
 
@@ -1171,9 +1172,18 @@
               del)));
         });
       }
+      const TAB_HELP = {
+        articles: '',
+        podcasts: 'Các tập podcast hiển thị trong mục "Thư viện" ở trang chủ.',
+        books: 'Sách bạn thêm ở đây sẽ hiện ở trang "Những cuốn sách đáng đọc" (ô Reading Corner). Nhớ chọn trạng thái "Đã đăng". Khách bấm ảnh bìa hoặc "Xem sách" sẽ sang link mua (Shopee, Lazada…).',
+        resources: 'Mục thêm ở đây sẽ hiện ở trang "Tài liệu và công cụ học tập" (ô Learning Resources). Nhớ chọn trạng thái "Đã đăng".'
+      };
       function renderAll() {
         if (!M.data) return;
         renderTabs(); renderCatFilter(); renderList(); renderStatus();
+        $('tab-help').textContent = TAB_HELP[M.tab] || '';
+        $('tab-help').hidden = !TAB_HELP[M.tab];
+        $('flt-cat').hidden = M.tab === 'books' || M.tab === 'resources';
       }
       $('q').addEventListener('input', function (e) { M.q = e.target.value; renderList(); });
       $('flt-cat').addEventListener('change', function (e) { M.cat = e.target.value; renderList(); });
@@ -1216,7 +1226,7 @@
           { k: 'url', l: 'Link bài viết', t: 'text', ph: 'https://…', req: 1, showIf: 'external' },
           { k: 'body', l: 'Nội dung bài viết', t: 'textarea', rows: 14, req: 1, showIf: 'internal', help: BODY_HELP },
           { k: 'featured', l: 'Nổi bật', t: 'checkbox', cl: 'Đánh dấu là nội dung nổi bật (hiện ở mục "Nổi bật" trên trang chủ)' },
-          { k: 'status', l: 'Trạng thái', t: 'status' }
+          { k: 'status', l: 'Trạng thái', t: 'status', help: 'Chọn "Đã đăng" để nội dung hiện trên website. "Nháp" là bản lưu tạm, khách chưa nhìn thấy.' }
         ],
         podcasts: [
           { k: 'title', l: 'Tên tập', t: 'text', req: 1 },
@@ -1228,18 +1238,18 @@
           { k: 'coverAlt', l: 'Mô tả ảnh bìa (tùy chọn)', t: 'text' },
           { k: 'date', l: 'Ngày đăng', t: 'date', req: 1 },
           { k: 'featured', l: 'Nổi bật', t: 'checkbox', cl: 'Đánh dấu là nội dung nổi bật' },
-          { k: 'status', l: 'Trạng thái', t: 'status' }
+          { k: 'status', l: 'Trạng thái', t: 'status', help: 'Chọn "Đã đăng" để nội dung hiện trên website. "Nháp" là bản lưu tạm, khách chưa nhìn thấy.' }
         ],
         books: [
           { k: 'title', l: 'Tên sách', t: 'text', req: 1 },
           { k: 'author', l: 'Tác giả', t: 'text', req: 1 },
           { k: 'cover', l: 'Link ảnh bìa sách (tùy chọn)', t: 'text', ph: 'https://…' },
           { k: 'note', l: 'Vì sao đáng đọc? (ghi chú của bạn)', t: 'textarea', rows: 4, help: 'Viết bằng lời của bạn, ngắn gọn.' },
-          { k: 'category', l: 'Chuyên mục (tùy chọn)', t: 'select', opts: catOpts('— Không chọn —') },
+          { k: 'category', l: 'Chuyên mục (tùy chọn — chỉ để phân loại, có thể bỏ trống)', t: 'select', opts: catOpts('— Không chọn —') },
           { k: 'affiliateUrl', l: 'Link mua / tìm hiểu thêm (tùy chọn)', t: 'text', ph: 'https://…', help: 'Website tự ghi rõ đây có thể là liên kết tiếp thị (affiliate).' },
           { k: 'date', l: 'Ngày giới thiệu (tùy chọn)', t: 'date' },
           { k: 'featured', l: 'Nổi bật', t: 'checkbox', cl: 'Đưa sách này lên đầu danh sách' },
-          { k: 'status', l: 'Trạng thái', t: 'status' }
+          { k: 'status', l: 'Trạng thái', t: 'status', help: 'Chọn "Đã đăng" để nội dung hiện trên website. "Nháp" là bản lưu tạm, khách chưa nhìn thấy.' }
         ],
         resources: [
           { k: 'title', l: 'Tên tài liệu / công cụ', t: 'text', req: 1 },
@@ -1247,10 +1257,10 @@
           { k: 'description', l: 'Mô tả ngắn / vì sao hữu ích', t: 'textarea', rows: 4, help: 'Viết bằng lời của bạn, ngắn gọn.' },
           { k: 'cover', l: 'Link ảnh minh họa (tùy chọn)', t: 'text', ph: 'https://…', help: 'Bấm vào ảnh trên website sẽ mở link bên dưới.' },
           { k: 'url', l: 'Link mở ra khi bấm vào (Shopee, Lazada, trang khác…)', t: 'text', ph: 'https://…', help: 'Website tự ghi rõ đây có thể là liên kết tiếp thị (affiliate).' },
-          { k: 'category', l: 'Chuyên mục (tùy chọn)', t: 'select', opts: catOpts('— Không chọn —') },
+          { k: 'category', l: 'Chuyên mục (tùy chọn — chỉ để phân loại, có thể bỏ trống)', t: 'select', opts: catOpts('— Không chọn —') },
           { k: 'date', l: 'Ngày thêm (tùy chọn)', t: 'date' },
           { k: 'featured', l: 'Nổi bật', t: 'checkbox', cl: 'Đưa lên đầu danh sách' },
-          { k: 'status', l: 'Trạng thái', t: 'status' }
+          { k: 'status', l: 'Trạng thái', t: 'status', help: 'Chọn "Đã đăng" để nội dung hiện trên website. "Nháp" là bản lưu tạm, khách chưa nhìn thấy.' }
         ]
       };
       function fieldNode(spec, it) {
@@ -1386,7 +1396,7 @@
         M.form.dirty = false;
         $('dlg-form').close();
         markDirty(); renderAll();
-        toast('Đã lưu "' + item.title + '". Nhớ xuất content.json khi hoàn tất.');
+        toast('Đã lưu "' + item.title + '".' + (item.status === 'published' ? ' Bấm "Đăng lên website" để website cập nhật.' : ' Mục này đang ở Nháp nên CHƯA hiện trên website — bấm "Đăng" trên dòng đó khi sẵn sàng.'), { ms: 8000 });
       });
       async function closeForm() {
         if (M.form && M.form.dirty) {
