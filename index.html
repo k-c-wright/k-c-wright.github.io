@@ -307,6 +307,8 @@
     .prose figcaption { margin-top: 8px; color: var(--muted); font-size: 12px; }
     .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 40px 0 0; padding: 22px 0 0; border-top: 1px solid var(--line); list-style: none; }
     .tag-list li { padding: 3px 11px; border: 1px solid var(--line); border-radius: 2px; color: var(--muted); font-size: 11px; }
+    .lang-note { display: inline-block; margin: 0 0 10px; padding: 1px 8px; border: 1px solid var(--line); border-radius: 2px; color: var(--muted); font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+    .article-wrap > .lang-note { margin: 20px 0 0; }
     @media (max-width: 1000px) {
       .card-grid { grid-template-columns: repeat(2, 1fr); }
       .book-grid { grid-template-columns: repeat(3, 1fr); }
@@ -375,25 +377,36 @@
     .list-view .article-lead { max-width: 640px; }
     .list-view .disclosure { margin: 6px 0 4px; }
     #article-view h1:focus { outline: none; }
+
+    .lang-switch { display: flex; flex: none; margin-left: 18px; border: 1px solid var(--line); border-radius: 2px; overflow: hidden; }
+    .lang-btn { min-width: 40px; min-height: 36px; padding: 4px 10px; border: 0; background: transparent; color: var(--muted); font: 700 11px var(--sans); letter-spacing: .08em; cursor: pointer; }
+    .lang-btn + .lang-btn { border-left: 1px solid var(--line); }
+    .lang-btn:hover { color: var(--green); }
+    .lang-btn[aria-pressed="true"] { background: var(--green); color: #fff; }
+    @media (max-width: 800px) { .brand { order: 1; } .lang-switch { order: 2; margin-left: auto; } .nav-links { order: 3; } .lang-btn { min-width: 34px; padding: 4px 7px; } }
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#main">Bỏ qua điều hướng</a>
-  <noscript><p class="noscript-note">Thư viện nội dung cần bật JavaScript để hiển thị. Vui lòng bật JavaScript trong trình duyệt của bạn.</p></noscript>
+  <a class="skip-link" href="#main" data-i18n>Bỏ qua điều hướng</a>
+  <noscript><p class="noscript-note" data-i18n>Thư viện nội dung cần bật JavaScript để hiển thị. Vui lòng bật JavaScript trong trình duyệt của bạn.</p></noscript>
 
   <header class="site-header">
     <div class="wrap nav">
       <a class="brand" href="#top" aria-label="K.C. Wright – Hành trình trở thành">
-        <span class="brand-mark" aria-hidden="true">K.</span>
-        <span class="brand-name">K.C. Wright<span class="brand-tagline">HÀNH TRÌNH TRỞ THÀNH</span></span>
+        <span class="brand-mark" aria-hidden="true" data-i18n>K.</span>
+        <span class="brand-name">K.C. Wright<span class="brand-tagline" data-i18n>HÀNH TRÌNH TRỞ THÀNH</span></span>
       </a>
       <nav class="nav-links" aria-label="Điều hướng chính">
-        <a href="#goc-nhin">Góc nhìn</a>
-        <a href="#noi-dung">Nội dung</a>
-        <a href="#gioi-thieu">Giới thiệu</a>
-        <a href="#doc-va-hoc">Đọc & học</a>
-        <a class="nav-follow" href="#theo-doi">Theo dõi</a>
+        <a href="#goc-nhin" data-i18n>Góc nhìn</a>
+        <a href="#noi-dung" data-i18n>Nội dung</a>
+        <a href="#gioi-thieu" data-i18n>Giới thiệu</a>
+        <a href="#doc-va-hoc" data-i18n>Đọc & học</a>
+        <a class="nav-follow" href="#theo-doi" data-i18n>Theo dõi</a>
       </nav>
+      <div class="lang-switch" role="group" aria-label="Ngôn ngữ">
+        <button type="button" class="lang-btn" data-lang="vi" lang="vi" title="Tiếng Việt" aria-pressed="true">VI</button>
+        <button type="button" class="lang-btn" data-lang="en" lang="en" title="English" aria-pressed="false">EN</button>
+      </div>
     </div>
   </header>
 
@@ -402,14 +415,14 @@
     <section class="hero" id="top">
       <div class="wrap hero-grid">
         <div>
-          <p class="eyebrow">Con người · Công việc · Cuộc sống</p>
-          <h1>Hiểu mình hơn.<br>Hiểu người hơn.<br>Và tiếp tục trưởng thành.</h1>
+          <p class="eyebrow" data-i18n>Con người · Công việc · Cuộc sống</p>
+          <h1 data-i18n>Hiểu mình hơn.<br>Hiểu người hơn.<br>Và tiếp tục trưởng thành.</h1>
         </div>
         <div class="hero-copy">
-          <p class="hero-lead">Một không gian chia sẻ kiến thức, trải nghiệm và góc nhìn về cách chúng ta suy nghĩ, làm việc, kết nối với người khác và từng bước trở nên có ý thức hơn trong những lựa chọn của mình.</p>
+          <p class="hero-lead" data-i18n>Một không gian chia sẻ kiến thức, trải nghiệm và góc nhìn về cách chúng ta suy nghĩ, làm việc, kết nối với người khác và từng bước trở nên có ý thức hơn trong những lựa chọn của mình.</p>
           <div class="button-row">
-            <a class="button button-primary" href="#noi-dung">Khám phá nội dung</a>
-            <a class="button button-secondary" href="#gioi-thieu">Về K.C. Wright</a>
+            <a class="button button-primary" href="#noi-dung" data-i18n>Khám phá nội dung</a>
+            <a class="button button-secondary" href="#gioi-thieu" data-i18n>Về K.C. Wright</a>
           </div>
         </div>
       </div>
@@ -418,30 +431,30 @@
     <section class="section" id="goc-nhin">
       <div class="wrap">
         <div class="section-heading">
-          <p class="kicker">Một trục tư duy</p>
+          <p class="kicker" data-i18n>Một trục tư duy</p>
           <div>
-            <h2>Sự phát triển của con người không diễn ra trong một khoảng trống.</h2>
-            <p class="section-intro">Con người, môi trường và cách chúng ta tương tác luôn ảnh hưởng lẫn nhau. Đây là ba lăng kính mình thường dùng để quan sát những điều diễn ra trong công việc và cuộc sống.</p>
+            <h2 data-i18n>Sự phát triển của con người không diễn ra trong một khoảng trống.</h2>
+            <p class="section-intro" data-i18n>Con người, môi trường và cách chúng ta tương tác luôn ảnh hưởng lẫn nhau. Đây là ba lăng kính mình thường dùng để quan sát những điều diễn ra trong công việc và cuộc sống.</p>
           </div>
         </div>
         <div class="lenses">
           <article class="lens">
-            <span class="lens-number">01 / SELF</span>
-            <h3>Understanding People</h3>
-            <p>Tâm lý, nhận thức, niềm tin, động lực và hành vi — những yếu tố định hình cách mỗi người suy nghĩ, lựa chọn và phát triển.</p>
-            <span class="lens-question">Con người vận hành như thế nào?</span>
+            <span class="lens-number" data-i18n>01 / SELF</span>
+            <h3 data-i18n>Understanding People</h3>
+            <p data-i18n>Tâm lý, nhận thức, niềm tin, động lực và hành vi — những yếu tố định hình cách mỗi người suy nghĩ, lựa chọn và phát triển.</p>
+            <span class="lens-question" data-i18n>Con người vận hành như thế nào?</span>
           </article>
           <article class="lens">
-            <span class="lens-number">02 / DEVELOPMENT</span>
-            <h3>Leadership & Coaching</h3>
-            <p>Lãnh đạo, giao tiếp, coaching và mentoring — cách chúng ta đồng hành, tạo điều kiện và hỗ trợ người khác trưởng thành.</p>
-            <span class="lens-question">Làm thế nào để hỗ trợ con người phát triển?</span>
+            <span class="lens-number" data-i18n>02 / DEVELOPMENT</span>
+            <h3 data-i18n>Leadership & Coaching</h3>
+            <p data-i18n>Lãnh đạo, giao tiếp, coaching và mentoring — cách chúng ta đồng hành, tạo điều kiện và hỗ trợ người khác trưởng thành.</p>
+            <span class="lens-question" data-i18n>Làm thế nào để hỗ trợ con người phát triển?</span>
           </article>
           <article class="lens">
-            <span class="lens-number">03 / SYSTEMS</span>
-            <h3>Work & Systems</h3>
-            <p>Tổ chức, quy trình, văn hóa và cơ chế vận hành — cách môi trường tạo điều kiện hoặc cản trở hành vi và kết quả.</p>
-            <span class="lens-question">Hệ thống đang ảnh hưởng đến con người ra sao?</span>
+            <span class="lens-number" data-i18n>03 / SYSTEMS</span>
+            <h3 data-i18n>Work & Systems</h3>
+            <p data-i18n>Tổ chức, quy trình, văn hóa và cơ chế vận hành — cách môi trường tạo điều kiện hoặc cản trở hành vi và kết quả.</p>
+            <span class="lens-question" data-i18n>Hệ thống đang ảnh hưởng đến con người ra sao?</span>
           </article>
         </div>
       </div>
@@ -450,15 +463,15 @@
     <section class="section about" id="gioi-thieu">
       <div class="wrap about-grid">
         <div>
-          <p class="kicker">Đôi điều về mình</p>
-          <h2>Mình quan tâm đến cách con người suy nghĩ, phát triển và đưa ra quyết định.</h2>
+          <p class="kicker" data-i18n>Đôi điều về mình</p>
+          <h2 data-i18n>Mình quan tâm đến cách con người suy nghĩ, phát triển và đưa ra quyết định.</h2>
         </div>
         <div class="about-copy">
-          <p>Mình là K.C. Wright. Những năm làm việc trong môi trường công nghệ và quản lý đội ngũ cho mình cơ hội quan sát con người ở nhiều khía cạnh: năng lực, động lực, hành vi, cách phối hợp và ảnh hưởng của hệ thống làm việc.</p>
-          <p>Trải nghiệm đó khiến mình đặt nhiều câu hỏi hơn. Một người chưa đạt kết quả có thực sự thiếu năng lực, hay đang thiếu phương pháp và môi trường phù hợp? Khi nào sự hỗ trợ giúp một người trưởng thành, và khi nào nó vô tình khiến họ phụ thuộc?</p>
-          <p>Ngoài công việc, mình tiếp tục quan sát những câu hỏi tương tự trong đời sống: cách chúng ta hiểu mình, xây dựng các mối quan hệ, thay đổi góc nhìn và chịu trách nhiệm với lựa chọn của chính mình.</p>
-          <p>K.C. Wright là nơi mình kết nối những kiến thức, trải nghiệm và suy ngẫm đó — không phải để đưa ra mọi câu trả lời, mà để cùng nhau nhìn vấn đề rõ hơn.</p>
-          <p class="about-signature">K.C. Wright</p>
+          <p data-i18n>Mình là K.C. Wright. Những năm làm việc trong môi trường công nghệ và quản lý đội ngũ cho mình cơ hội quan sát con người ở nhiều khía cạnh: năng lực, động lực, hành vi, cách phối hợp và ảnh hưởng của hệ thống làm việc.</p>
+          <p data-i18n>Trải nghiệm đó khiến mình đặt nhiều câu hỏi hơn. Một người chưa đạt kết quả có thực sự thiếu năng lực, hay đang thiếu phương pháp và môi trường phù hợp? Khi nào sự hỗ trợ giúp một người trưởng thành, và khi nào nó vô tình khiến họ phụ thuộc?</p>
+          <p data-i18n>Ngoài công việc, mình tiếp tục quan sát những câu hỏi tương tự trong đời sống: cách chúng ta hiểu mình, xây dựng các mối quan hệ, thay đổi góc nhìn và chịu trách nhiệm với lựa chọn của chính mình.</p>
+          <p data-i18n>K.C. Wright là nơi mình kết nối những kiến thức, trải nghiệm và suy ngẫm đó — không phải để đưa ra mọi câu trả lời, mà để cùng nhau nhìn vấn đề rõ hơn.</p>
+          <p class="about-signature" data-i18n>K.C. Wright</p>
         </div>
       </div>
     </section>
@@ -467,40 +480,40 @@
       <div class="wrap">
         <div class="content-intro">
           <div>
-            <p class="kicker">Những điều mình khám phá</p>
-            <p class="pull-quote">“Đôi khi, điều chúng ta cần không phải là một câu trả lời nhanh hơn, mà là một cách đặt câu hỏi tốt hơn.”</p>
+            <p class="kicker" data-i18n>Những điều mình khám phá</p>
+            <p class="pull-quote" data-i18n>“Đôi khi, điều chúng ta cần không phải là một câu trả lời nhanh hơn, mà là một cách đặt câu hỏi tốt hơn.”</p>
           </div>
           <div class="content-intro-copy">
-            <h2>Kiến thức từ thực tế. Góc nhìn từ quan sát.</h2>
-            <p>Mỗi nội dung bắt đầu từ một câu hỏi, một trải nghiệm hoặc một điều mình muốn hiểu rõ hơn. Có chủ đề đến từ công việc, có chủ đề từ những cuốn sách, cuộc trò chuyện hay khoảnh khắc rất đời thường.</p>
-            <p>Bạn có thể bắt đầu từ bất kỳ chủ đề nào mình quan tâm — và tự hình thành góc nhìn của riêng mình.</p>
+            <h2 data-i18n>Kiến thức từ thực tế. Góc nhìn từ quan sát.</h2>
+            <p data-i18n>Mỗi nội dung bắt đầu từ một câu hỏi, một trải nghiệm hoặc một điều mình muốn hiểu rõ hơn. Có chủ đề đến từ công việc, có chủ đề từ những cuốn sách, cuộc trò chuyện hay khoảnh khắc rất đời thường.</p>
+            <p data-i18n>Bạn có thể bắt đầu từ bất kỳ chủ đề nào mình quan tâm — và tự hình thành góc nhìn của riêng mình.</p>
           </div>
         </div>
 
         <div class="series-grid">
           <a class="series-card" href="#thu-vien" data-cat="understanding-people">
-            <span class="series-index">01 / PEOPLE</span>
-            <h3>Understanding People</h3>
-            <p>Tìm hiểu tâm lý, hành vi, động lực, niềm tin và những yếu tố ảnh hưởng đến cách con người suy nghĩ, cảm nhận và hành động.</p>
-            <span class="series-link">Khám phá chủ đề ↓</span>
+            <span class="series-index" data-i18n>01 / PEOPLE</span>
+            <h3 data-i18n>Understanding People</h3>
+            <p data-i18n>Tìm hiểu tâm lý, hành vi, động lực, niềm tin và những yếu tố ảnh hưởng đến cách con người suy nghĩ, cảm nhận và hành động.</p>
+            <span class="series-link" data-i18n>Khám phá chủ đề ↓</span>
           </a>
           <a class="series-card" href="#thu-vien" data-cat="leadership-coaching">
-            <span class="series-index">02 / LEADERSHIP</span>
-            <h3>Leadership & Coaching</h3>
-            <p>Những góc nhìn thực tế về quản lý, dẫn dắt, mentoring, coaching, giao tiếp và phát triển năng lực của người khác.</p>
-            <span class="series-link">Khám phá chủ đề ↓</span>
+            <span class="series-index" data-i18n>02 / LEADERSHIP</span>
+            <h3 data-i18n>Leadership & Coaching</h3>
+            <p data-i18n>Những góc nhìn thực tế về quản lý, dẫn dắt, mentoring, coaching, giao tiếp và phát triển năng lực của người khác.</p>
+            <span class="series-link" data-i18n>Khám phá chủ đề ↓</span>
           </a>
           <a class="series-card" href="#thu-vien" data-cat="work-systems">
-            <span class="series-index">03 / SYSTEMS</span>
-            <h3>Work & Systems</h3>
-            <p>Quan sát cách quy trình, văn hóa, mục tiêu và cơ chế tổ chức định hình trải nghiệm làm việc cũng như kết quả chung.</p>
-            <span class="series-link">Khám phá chủ đề ↓</span>
+            <span class="series-index" data-i18n>03 / SYSTEMS</span>
+            <h3 data-i18n>Work & Systems</h3>
+            <p data-i18n>Quan sát cách quy trình, văn hóa, mục tiêu và cơ chế tổ chức định hình trải nghiệm làm việc cũng như kết quả chung.</p>
+            <span class="series-link" data-i18n>Khám phá chủ đề ↓</span>
           </a>
           <a class="series-card" href="#thu-vien" data-cat="notes-on-becoming">
-            <span class="series-index">04 / REFLECTIONS</span>
-            <h3>Notes on Becoming</h3>
-            <p>Những trải nghiệm, nhận ra và chiêm nghiệm về các mối quan hệ, lựa chọn, thay đổi và hành trình hiểu mình.</p>
-            <span class="series-link">Khám phá chủ đề ↓</span>
+            <span class="series-index" data-i18n>04 / REFLECTIONS</span>
+            <h3 data-i18n>Notes on Becoming</h3>
+            <p data-i18n>Những trải nghiệm, nhận ra và chiêm nghiệm về các mối quan hệ, lựa chọn, thay đổi và hành trình hiểu mình.</p>
+            <span class="series-link" data-i18n>Khám phá chủ đề ↓</span>
           </a>
         </div>
       </div>
@@ -509,10 +522,10 @@
     <section class="section featured" id="noi-dung-moi" hidden>
       <div class="wrap">
         <div class="section-heading">
-          <p class="kicker">Nổi bật</p>
+          <p class="kicker" data-i18n>Nổi bật</p>
           <div>
-            <h2>Một vài nội dung để bắt đầu.</h2>
-            <p class="section-intro">Những bài viết và tập podcast mình chọn giới thiệu trước trong thư viện nội dung của K.C. Wright.</p>
+            <h2 data-i18n>Một vài nội dung để bắt đầu.</h2>
+            <p class="section-intro" data-i18n>Những bài viết và tập podcast mình chọn giới thiệu trước trong thư viện nội dung của K.C. Wright.</p>
           </div>
         </div>
         <div class="featured-grid" id="featured-grid"></div>
@@ -522,14 +535,14 @@
     <section class="section latest" id="cap-nhat">
       <div class="wrap">
         <div class="section-heading">
-          <p class="kicker">Cập nhật</p>
+          <p class="kicker" data-i18n>Cập nhật</p>
           <div>
-            <h2>Những điều mới đang được viết và thực hiện.</h2>
-            <p class="section-intro">Nơi tập hợp các bài viết và tập podcast mới nhất của K.C. Wright.</p>
+            <h2 data-i18n>Những điều mới đang được viết và thực hiện.</h2>
+            <p class="section-intro" data-i18n>Nơi tập hợp các bài viết và tập podcast mới nhất của K.C. Wright.</p>
           </div>
         </div>
         <div class="latest-list" id="latest-list" aria-live="polite">
-          <p class="empty-state">Đang tải nội dung…</p>
+          <p class="empty-state" data-i18n>Đang tải nội dung…</p>
         </div>
       </div>
     </section>
@@ -537,17 +550,17 @@
     <section class="section library" id="thu-vien" hidden>
       <div class="wrap">
         <div class="section-heading">
-          <p class="kicker">Thư viện</p>
+          <p class="kicker" data-i18n>Thư viện</p>
           <div>
-            <h2>Tất cả nội dung.</h2>
-            <p class="section-intro">Lọc theo chuyên mục hoặc hình thức để tìm điều bạn muốn đọc, muốn nghe.</p>
+            <h2 data-i18n>Tất cả nội dung.</h2>
+            <p class="section-intro" data-i18n>Lọc theo chuyên mục hoặc hình thức để tìm điều bạn muốn đọc, muốn nghe.</p>
           </div>
         </div>
         <div class="library-controls" id="library-controls"></div>
         <p class="result-count" id="library-count" aria-live="polite"></p>
         <div class="card-grid" id="library-grid"></div>
         <div class="library-more" id="library-more" hidden>
-          <button type="button" class="button button-secondary" id="library-more-btn">Xem thêm nội dung</button>
+          <button type="button" class="button button-secondary" id="library-more-btn" data-i18n>Xem thêm nội dung</button>
         </div>
       </div>
     </section>
@@ -555,24 +568,24 @@
     <section class="section reading" id="doc-va-hoc">
       <div class="wrap">
         <div class="section-heading">
-          <p class="kicker">Reading & Learning</p>
+          <p class="kicker" data-i18n>Reading & Learning</p>
           <div>
-            <h2>Đọc thêm. Học thêm. Thử áp dụng.</h2>
-            <p class="section-intro">Một góc nhỏ dành cho sách, tài liệu và những nguồn học tập có thể giúp chúng ta mở rộng góc nhìn hoặc đưa hiểu biết vào thực hành.</p>
+            <h2 data-i18n>Đọc thêm. Học thêm. Thử áp dụng.</h2>
+            <p class="section-intro" data-i18n>Một góc nhỏ dành cho sách, tài liệu và những nguồn học tập có thể giúp chúng ta mở rộng góc nhìn hoặc đưa hiểu biết vào thực hành.</p>
           </div>
         </div>
         <div class="reading-grid" id="reading-grid">
           <article class="reading-card">
-            <span class="small-label">Reading Corner</span>
-            <h3>Những cuốn sách đáng đọc</h3>
-            <p>Sách về tâm lý, hành vi, lãnh đạo, tư duy hệ thống và phát triển bản thân — kèm ghi chú và cảm nhận khi có nội dung phù hợp.</p>
+            <span class="small-label" data-i18n>Reading Corner</span>
+            <h3 data-i18n>Những cuốn sách đáng đọc</h3>
+            <p data-i18n>Sách về tâm lý, hành vi, lãnh đạo, tư duy hệ thống và phát triển bản thân — kèm ghi chú và cảm nhận khi có nội dung phù hợp.</p>
             <div id="reading-books"></div>
           </article>
           <article class="reading-card">
-            <span class="small-label">Learning Resources</span>
-            <h3>Tài liệu và công cụ học tập</h3>
-            <p>Các nguồn tham khảo, framework và công cụ thực hành được chọn lọc từ quá trình học hỏi và trải nghiệm.</p>
-            <span class="status-line" id="learning-status">Đang phát triển</span>
+            <span class="small-label" data-i18n>Learning Resources</span>
+            <h3 data-i18n>Tài liệu và công cụ học tập</h3>
+            <p data-i18n>Các nguồn tham khảo, framework và công cụ thực hành được chọn lọc từ quá trình học hỏi và trải nghiệm.</p>
+            <span class="status-line" id="learning-status" data-i18n>Đang phát triển</span>
             <div id="learning-items"></div>
           </article>
         </div>
@@ -581,14 +594,14 @@
 
     <section class="subscribe" id="theo-doi">
       <div class="wrap subscribe-inner">
-        <p class="kicker">Cùng tiếp tục hành trình</p>
-        <h2>Nếu những góc nhìn này có ích với bạn, hãy quay lại nhé.</h2>
-        <p>K.C. Wright sẽ tiếp tục chia sẻ những điều đang học hỏi và quan sát về con người, công việc và cuộc sống. Mình hy vọng nơi này sẽ là một điểm dừng nhỏ để bạn đọc, nghe và suy nghĩ thêm.</p>
+        <p class="kicker" data-i18n>Cùng tiếp tục hành trình</p>
+        <h2 data-i18n>Nếu những góc nhìn này có ích với bạn, hãy quay lại nhé.</h2>
+        <p data-i18n>K.C. Wright sẽ tiếp tục chia sẻ những điều đang học hỏi và quan sát về con người, công việc và cuộc sống. Mình hy vọng nơi này sẽ là một điểm dừng nhỏ để bạn đọc, nghe và suy nghĩ thêm.</p>
         <div class="button-row" style="justify-content:center">
-          <a class="button button-primary" href="#noi-dung">Khám phá các chủ đề</a>
-          <a class="button button-secondary" href="#top">Quay lại đầu trang</a>
+          <a class="button button-primary" href="#noi-dung" data-i18n>Khám phá các chủ đề</a>
+          <a class="button button-secondary" href="#top" data-i18n>Quay lại đầu trang</a>
         </div>
-        <span class="subscribe-note">Liên kết YouTube và đăng ký nhận nội dung sẽ được thêm tại đây khi kênh chính thức sẵn sàng.</span>
+        <span class="subscribe-note" data-i18n>Liên kết YouTube và đăng ký nhận nội dung sẽ được thêm tại đây khi kênh chính thức sẵn sàng.</span>
       </div>
     </section>
     </div>
@@ -598,15 +611,130 @@
 
   <footer>
     <div class="wrap footer-row">
-      <strong>K.C. Wright</strong>
-      <span>© 2026 K.C. Wright · Một hành trình học hỏi và trở thành.</span>
-      <a class="back-top" href="#top">Lên đầu trang ↑</a>
+      <strong data-i18n>K.C. Wright</strong>
+      <span data-i18n>© 2026 K.C. Wright · Một hành trình học hỏi và trở thành.</span>
+      <a class="back-top" href="#top" data-i18n>Lên đầu trang ↑</a>
     </div>
   </footer>
 
-  <a class="owner-edit" id="owner-edit" href="content-manager.html" hidden>✎ Chỉnh sửa nội dung</a>
+  <a class="owner-edit" id="owner-edit" href="content-manager.html" hidden data-i18n>✎ Chỉnh sửa nội dung</a>
 
   <script>
+    /* ===== Bản dịch tiếng Anh (khóa = câu tiếng Việt gốc) ===== */
+    const EN_MAP = {
+      /* --- cố định trong index.html --- */
+      'Bỏ qua điều hướng': 'Skip to content',
+      'Thư viện nội dung cần bật JavaScript để hiển thị. Vui lòng bật JavaScript trong trình duyệt của bạn.': 'The content library needs JavaScript. Please enable JavaScript in your browser.',
+      'HÀNH TRÌNH TRỞ THÀNH': 'THE JOURNEY OF BECOMING',
+      'Góc nhìn': 'Perspectives',
+      'Nội dung': 'Content',
+      'Giới thiệu': 'About',
+      'Đọc & học': 'Read & Learn',
+      'Theo dõi': 'Follow',
+      'Con người · Công việc · Cuộc sống': 'People · Work · Life',
+      'Hiểu mình hơn.\nHiểu người hơn.\nVà tiếp tục trưởng thành.': 'Understand yourself.\nUnderstand others.\nKeep growing.',
+      'Một không gian chia sẻ kiến thức, trải nghiệm và góc nhìn về cách chúng ta suy nghĩ, làm việc, kết nối với người khác và từng bước trở nên có ý thức hơn trong những lựa chọn của mình.': 'A space for sharing knowledge, experiences and perspectives on how we think, work, connect with others, and gradually become more intentional about the choices we make.',
+      'Khám phá nội dung': 'Explore the content',
+      'Về K.C. Wright': 'About K.C. Wright',
+      'Một trục tư duy': 'A way of thinking',
+      'Sự phát triển của con người không diễn ra trong một khoảng trống.': 'Human development does not happen in a vacuum.',
+      'Con người, môi trường và cách chúng ta tương tác luôn ảnh hưởng lẫn nhau. Đây là ba lăng kính mình thường dùng để quan sát những điều diễn ra trong công việc và cuộc sống.': 'People, environments and the way we interact always influence one another. These are the three lenses I often use to observe what happens in work and in life.',
+      'Tâm lý, nhận thức, niềm tin, động lực và hành vi — những yếu tố định hình cách mỗi người suy nghĩ, lựa chọn và phát triển.': 'Psychology, cognition, beliefs, motivation and behaviour — the factors that shape how each person thinks, chooses and grows.',
+      'Con người vận hành như thế nào?': 'How do people work?',
+      'Lãnh đạo, giao tiếp, coaching và mentoring — cách chúng ta đồng hành, tạo điều kiện và hỗ trợ người khác trưởng thành.': 'Leadership, communication, coaching and mentoring — how we walk alongside others, create conditions and support them to grow.',
+      'Làm thế nào để hỗ trợ con người phát triển?': 'How can we support people to develop?',
+      'Tổ chức, quy trình, văn hóa và cơ chế vận hành — cách môi trường tạo điều kiện hoặc cản trở hành vi và kết quả.': 'Organisations, processes, culture and operating mechanisms — how environments enable or hinder behaviour and results.',
+      'Hệ thống đang ảnh hưởng đến con người ra sao?': 'How are systems shaping people?',
+      'Đôi điều về mình': 'A little about me',
+      'Mình quan tâm đến cách con người suy nghĩ, phát triển và đưa ra quyết định.': 'I care about how people think, develop and make decisions.',
+      'Mình là K.C. Wright. Những năm làm việc trong môi trường công nghệ và quản lý đội ngũ cho mình cơ hội quan sát con người ở nhiều khía cạnh: năng lực, động lực, hành vi, cách phối hợp và ảnh hưởng của hệ thống làm việc.': 'I am K.C. Wright. Years of working in technology and managing teams gave me the chance to observe people from many angles: capability, motivation, behaviour, collaboration, and the influence of work systems.',
+      'Trải nghiệm đó khiến mình đặt nhiều câu hỏi hơn. Một người chưa đạt kết quả có thực sự thiếu năng lực, hay đang thiếu phương pháp và môi trường phù hợp? Khi nào sự hỗ trợ giúp một người trưởng thành, và khi nào nó vô tình khiến họ phụ thuộc?': 'That experience led me to ask more questions. Is someone who has not reached a result truly lacking ability, or lacking the right method and environment? When does support help a person grow, and when does it unintentionally make them dependent?',
+      'Ngoài công việc, mình tiếp tục quan sát những câu hỏi tương tự trong đời sống: cách chúng ta hiểu mình, xây dựng các mối quan hệ, thay đổi góc nhìn và chịu trách nhiệm với lựa chọn của chính mình.': 'Beyond work, I keep observing similar questions in everyday life: how we understand ourselves, build relationships, change our perspective and take responsibility for our own choices.',
+      'K.C. Wright là nơi mình kết nối những kiến thức, trải nghiệm và suy ngẫm đó — không phải để đưa ra mọi câu trả lời, mà để cùng nhau nhìn vấn đề rõ hơn.': 'K.C. Wright is where I connect that knowledge, experience and reflection — not to give every answer, but to see issues more clearly together.',
+      'Những điều mình khám phá': 'What I explore',
+      '“Đôi khi, điều chúng ta cần không phải là một câu trả lời nhanh hơn, mà là một cách đặt câu hỏi tốt hơn.”': '“Sometimes what we need is not a faster answer, but a better way of asking the question.”',
+      'Kiến thức từ thực tế. Góc nhìn từ quan sát.': 'Knowledge from practice. Perspective from observation.',
+      'Mỗi nội dung bắt đầu từ một câu hỏi, một trải nghiệm hoặc một điều mình muốn hiểu rõ hơn. Có chủ đề đến từ công việc, có chủ đề từ những cuốn sách, cuộc trò chuyện hay khoảnh khắc rất đời thường.': 'Each piece starts from a question, an experience or something I want to understand better. Some topics come from work, others from books, conversations or very ordinary moments.',
+      'Bạn có thể bắt đầu từ bất kỳ chủ đề nào mình quan tâm — và tự hình thành góc nhìn của riêng mình.': 'You can start from any topic that interests you — and form your own perspective.',
+      'Tìm hiểu tâm lý, hành vi, động lực, niềm tin và những yếu tố ảnh hưởng đến cách con người suy nghĩ, cảm nhận và hành động.': 'Explore psychology, behaviour, motivation, beliefs and the factors that influence how people think, feel and act.',
+      'Khám phá chủ đề ↓': 'Explore topic ↓',
+      'Những góc nhìn thực tế về quản lý, dẫn dắt, mentoring, coaching, giao tiếp và phát triển năng lực của người khác.': 'Practical perspectives on management, leading, mentoring, coaching, communication and developing other people’s capabilities.',
+      'Quan sát cách quy trình, văn hóa, mục tiêu và cơ chế tổ chức định hình trải nghiệm làm việc cũng như kết quả chung.': 'Observations on how processes, culture, goals and organisational mechanisms shape the experience of work and overall results.',
+      'Những trải nghiệm, nhận ra và chiêm nghiệm về các mối quan hệ, lựa chọn, thay đổi và hành trình hiểu mình.': 'Experiences, realisations and reflections on relationships, choices, change and the journey of understanding oneself.',
+      'Nổi bật': 'Featured',
+      'Một vài nội dung để bắt đầu.': 'A few places to start.',
+      'Những bài viết và tập podcast mình chọn giới thiệu trước trong thư viện nội dung của K.C. Wright.': 'Articles and podcast episodes I chose to highlight first in the K.C. Wright library.',
+      'Cập nhật': 'Latest',
+      'Những điều mới đang được viết và thực hiện.': 'What is new and in the making.',
+      'Nơi tập hợp các bài viết và tập podcast mới nhất của K.C. Wright.': 'The newest articles and podcast episodes from K.C. Wright.',
+      'Đang tải nội dung…': 'Loading content…',
+      'Thư viện': 'Library',
+      'Tất cả nội dung.': 'All content.',
+      'Lọc theo chuyên mục hoặc hình thức để tìm điều bạn muốn đọc, muốn nghe.': 'Filter by category or format to find what you want to read or listen to.',
+      'Xem thêm nội dung': 'Show more',
+      'Đọc thêm. Học thêm. Thử áp dụng.': 'Read more. Learn more. Try it out.',
+      'Một góc nhỏ dành cho sách, tài liệu và những nguồn học tập có thể giúp chúng ta mở rộng góc nhìn hoặc đưa hiểu biết vào thực hành.': 'A small corner for books, materials and learning resources that can widen our perspective or help put understanding into practice.',
+      'Những cuốn sách đáng đọc': 'Books worth reading',
+      'Sách về tâm lý, hành vi, lãnh đạo, tư duy hệ thống và phát triển bản thân — kèm ghi chú và cảm nhận khi có nội dung phù hợp.': 'Books on psychology, behaviour, leadership, systems thinking and personal growth — with notes and reflections when relevant.',
+      'Tài liệu và công cụ học tập': 'Learning materials and tools',
+      'Các nguồn tham khảo, framework và công cụ thực hành được chọn lọc từ quá trình học hỏi và trải nghiệm.': 'References, frameworks and practical tools selected from my learning and experience.',
+      'Đang phát triển': 'In development',
+      'Cùng tiếp tục hành trình': 'Let’s continue the journey',
+      'Nếu những góc nhìn này có ích với bạn, hãy quay lại nhé.': 'If these perspectives are useful to you, come back again.',
+      'K.C. Wright sẽ tiếp tục chia sẻ những điều đang học hỏi và quan sát về con người, công việc và cuộc sống. Mình hy vọng nơi này sẽ là một điểm dừng nhỏ để bạn đọc, nghe và suy nghĩ thêm.': 'K.C. Wright will keep sharing what I am learning and observing about people, work and life. I hope this place becomes a small stop where you can read, listen and think a little more.',
+      'Khám phá các chủ đề': 'Explore the topics',
+      'Quay lại đầu trang': 'Back to top',
+      'Liên kết YouTube và đăng ký nhận nội dung sẽ được thêm tại đây khi kênh chính thức sẵn sàng.': 'The YouTube link and subscription options will be added here when the official channel is ready.',
+      '© 2026 K.C. Wright · Một hành trình học hỏi và trở thành.': '© 2026 K.C. Wright · A journey of learning and becoming.',
+      'Lên đầu trang ↑': 'Back to top ↑',
+      '✎ Chỉnh sửa nội dung': '✎ Edit content',
+      /* --- siêu dữ liệu & nhãn trợ năng --- */
+      'K.C. Wright – Hành trình trở thành': 'K.C. Wright – The Journey of Becoming',
+      'K.C. Wright chia sẻ kiến thức, trải nghiệm và góc nhìn về con người, công việc, tư duy hệ thống và hành trình trưởng thành.': 'K.C. Wright shares knowledge, experiences and perspectives on people, work, systems thinking and the journey of personal growth.',
+      'Hiểu mình hơn. Hiểu người hơn. Và tiếp tục trưởng thành.': 'Understand yourself better. Understand others better. And keep growing.',
+      'Điều hướng chính': 'Main navigation',
+      'Ngôn ngữ': 'Language',
+      /* --- động (JavaScript) --- */
+      '{n} nội dung': '{n} items',
+      'Bài viết': 'Articles', 'Bài viết#one': 'Article',
+      'Podcast': 'Podcast',
+      'Tất cả': 'All',
+      'Hình thức': 'Format', 'Chuyên mục': 'Category',
+      'Lọc theo hình thức': 'Filter by format', 'Lọc theo chuyên mục': 'Filter by category',
+      'Đọc bài viết': 'Read article', 'Đọc tiếp': 'Read more',
+      'Đọc bài viết: {t}': 'Read article: {t}', 'Đọc tiếp: {t}': 'Read more: {t}', 'Đọc: {t}': 'Read: {t}', 'Xem tập: {t}': 'Watch: {t}',
+      'Xem tập này': 'Watch this episode', 'Đóng video': 'Close video',
+      'Mở trên YouTube': 'Open on YouTube', 'Mở trên YouTube: {t}': 'Open on YouTube: {t}', 'Video: {t}': 'Video: {t}',
+      'Liên kết video sẽ được cập nhật.': 'Video link coming soon.',
+      'Tập {n}': 'Episode {n}',
+      'Tài liệu': 'Document', 'Công cụ': 'Tool', 'Khóa học': 'Course', 'Khác': 'Other',
+      'Một số liên kết trên trang này có thể là liên kết tiếp thị (affiliate). Mình có thể nhận một khoản hoa hồng nhỏ, không làm tăng chi phí của bạn.': 'Some links on this page may be affiliate links. I may receive a small commission at no additional cost to you.',
+      'Hình minh họa: {t}': 'Illustration: {t}',
+      'Xem chi tiết': 'View details',
+      'Xem chi tiết: {t} (có thể là liên kết tiếp thị)': 'View details: {t} (may be an affiliate link)',
+      'Bìa sách {t}': 'Book cover: {t}', 'Sách': 'Book',
+      'Xem sách': 'View book', 'Xem sách: {t} (liên kết tiếp thị)': 'View book: {t} (affiliate link)',
+      '← Quay lại thư viện': '← Back to library', '← Quay lại': '← Back',
+      'Ngày đăng {d}': 'Published {d}', 'Thẻ chủ đề': 'Topic tags',
+      'Bản tiếng Việt': 'Vietnamese',
+      'Bài viết này hiện chỉ có tiếng Việt.': 'This article is currently available in Vietnamese only.',
+      'Chưa tải được nội dung lúc này. Bạn thử tải lại trang sau ít phút nhé.': 'Content could not be loaded right now. Please try reloading in a few minutes.',
+      'Những bài viết và tập podcast đầu tiên đang được chuẩn bị. Nội dung sẽ xuất hiện tại đây khi sẵn sàng.': 'The first articles and podcast episodes are being prepared. They will appear here when ready.',
+      'Đang hiển thị {a} / {b} nội dung': 'Showing {a} of {b} items',
+      'Xem tất cả nội dung': 'View all content',
+      'Chưa có nội dung nào trong lựa chọn này.': 'Nothing in this selection yet.',
+      'Xem {n} cuốn sách': 'View {n} books',
+      'Xem {n} tài liệu & công cụ': 'View {n} resources & tools',
+      'Chưa tải được danh sách sách lúc này.': 'The book list could not be loaded right now.',
+      'Danh sách sách đầu tiên đang được chuẩn bị.': 'The first book list is being prepared.',
+      'Danh sách này đang được chuẩn bị.': 'This list is being prepared.',
+      'Đang tải…': 'Loading…',
+      'Sách về tâm lý, hành vi, lãnh đạo, tư duy hệ thống và phát triển bản thân — kèm ghi chú của K.C. Wright.': 'Books on psychology, behaviour, leadership, systems thinking and personal growth — with notes from K.C. Wright.',
+      'Đang tải bài viết…': 'Loading article…',
+      'Không tìm thấy bài viết': 'Article not found',
+      'Bài viết này có thể đã được đổi địa chỉ hoặc chưa được xuất bản.': 'This article may have moved or has not been published yet.'
+    };
+
     /* ===== K.C. Wright – shared rendering core =====
        Dùng chung cho index.html và phần Xem trước của content-manager.html.
        Mọi nội dung từ content.json đều được dựng bằng DOM + textContent
@@ -621,6 +749,17 @@
       const c = CATEGORIES.find(function (x) { return x.key === key; });
       return c ? c.name : '';
     }
+
+    /* ---- Ngôn ngữ giao diện: 'vi' (mặc định) hoặc 'en' ---- */
+    let LANG = 'vi';
+    function T(vi, vars) {
+      let s = (LANG === 'en' && typeof EN_MAP !== 'undefined' && Object.prototype.hasOwnProperty.call(EN_MAP, vi)) ? EN_MAP[vi] : vi.replace(/#\w+$/, '');
+      if (vars) s = s.replace(/\{(\w+)\}/g, function (m, k) { return vars[k] !== undefined ? vars[k] : m; });
+      return s;
+    }
+    function loc(it, key) { return (LANG === 'en' && it.en && it.en[key]) ? it.en[key] : it[key]; }
+    function vnOnly(it) { return LANG === 'en' && !(it.en && it.en.title); }
+    const MONTHS_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     function h(tag, props) {
       const el = document.createElement(tag);
@@ -688,6 +827,7 @@
     function fmtDate(s) {
       const d = parseISO(s);
       if (!d) return '';
+      if (LANG === 'en') return String(d.getDate()).padStart(2, '0') + ' ' + MONTHS_EN[d.getMonth()] + ' ' + d.getFullYear();
       return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear();
     }
     function sortNewest(list) {
@@ -710,6 +850,12 @@
         r[k] = typeof v === 'string' ? v.trim() : (typeof v === 'number' ? String(v) : '');
       });
       r.tags = Array.isArray(o.tags) ? o.tags.filter(function (t) { return typeof t === 'string' && t.trim(); }).map(function (t) { return t.trim(); }) : [];
+      r.en = {};
+      if (o.en && typeof o.en === 'object' && !Array.isArray(o.en)) {
+        ['title', 'excerpt', 'body', 'description', 'note', 'coverAlt'].forEach(function (k) {
+          if (typeof o.en[k] === 'string' && o.en[k].trim()) r.en[k] = o.en[k].trim();
+        });
+      }
       r.featured = o.featured === true;
       const ep = Number(o.episode);
       r.episode = (o.episode !== null && o.episode !== '' && Number.isFinite(ep) && ep > 0) ? Math.floor(ep) : null;
@@ -822,10 +968,11 @@
       return { href: link.href, target: link.external ? '_blank' : null, rel: link.external ? 'noopener noreferrer' : null };
     }
     function arrow(ext) { return h('span', { 'aria-hidden': 'true', text: ext ? '↗' : '→' }); }
+    function vnBadge(it) { return vnOnly(it) ? h('span', { class: 'lang-note', text: T('Bản tiếng Việt') }) : null; }
 
     function articleCard(a) {
-      const link = articleLink(a);
-      const cover = coverNode(a.cover, a.coverAlt, catName(a.category));
+      const link = articleLink(a), title = loc(a, 'title'), excerpt = loc(a, 'excerpt');
+      const cover = coverNode(a.cover, loc(a, 'coverAlt'), catName(a.category));
       const media = link
         ? h('a', Object.assign({ class: 'card-media', tabindex: '-1', 'aria-hidden': 'true' }, linkAttrs(link)), cover)
         : h('div', { class: 'card-media' }, cover);
@@ -834,107 +981,112 @@
         h('div', { class: 'card-body' },
           h('div', { class: 'card-meta' },
             catName(a.category) ? h('span', { class: 'cat', text: catName(a.category) }) : null,
-            d ? h('span', { text: d }) : null),
-          h('h3', null, link ? h('a', linkAttrs(link), a.title) : a.title),
-          a.excerpt ? h('p', { text: a.excerpt }) : null,
+            d ? h('span', { text: d }) : null, vnBadge(a)),
+          h('h3', null, link ? h('a', linkAttrs(link), title) : title),
+          excerpt ? h('p', { text: excerpt }) : null,
           link ? h('div', { class: 'card-actions' },
-            h('a', Object.assign({ class: 'text-link', 'aria-label': (link.external ? 'Đọc bài viết: ' : 'Đọc tiếp: ') + a.title }, linkAttrs(link)),
-              link.external ? 'Đọc bài viết ' : 'Đọc tiếp ', arrow(link.external))) : null));
+            h('a', Object.assign({ class: 'text-link', 'aria-label': T(link.external ? 'Đọc bài viết: {t}' : 'Đọc tiếp: {t}', { t: title }) }, linkAttrs(link)),
+              T(link.external ? 'Đọc bài viết' : 'Đọc tiếp') + ' ', arrow(link.external))) : null));
     }
 
     function podcastCard(p, opts) {
       const preview = !!(opts && opts.preview);
+      const title = loc(p, 'title'), desc = loc(p, 'description');
       const id = youtubeId(p.youtube);
       const ytUrl = id ? safeUrl(p.youtube, { allowRelative: false }) : '';
       const coverSrc = p.cover || (id ? 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg' : '');
       const mediaParts = function () {
-        return [coverNode(coverSrc, p.coverAlt, 'Podcast'), id ? h('span', { class: 'play-mark', 'aria-hidden': 'true', text: '▶' }) : null];
+        return [coverNode(coverSrc, loc(p, 'coverAlt'), 'Podcast'), id ? h('span', { class: 'play-mark', 'aria-hidden': 'true', text: '▶' }) : null];
       };
       const media = h('div', { class: 'card-media' }, mediaParts());
       const d = fmtDate(p.date);
       const actions = h('div', { class: 'card-actions' });
       if (id) {
         if (!preview) {
-          const btn = h('button', { type: 'button', class: 'text-link link-button', 'aria-expanded': 'false' }, 'Xem tập này ', h('span', { 'aria-hidden': 'true', text: '▶' }));
+          const btn = h('button', { type: 'button', class: 'text-link link-button', 'aria-expanded': 'false' }, T('Xem tập này') + ' ', h('span', { 'aria-hidden': 'true', text: '▶' }));
           btn.addEventListener('click', function () {
             const open = btn.getAttribute('aria-expanded') === 'true';
             media.replaceChildren();
             if (open) {
               media.append.apply(media, mediaParts());
-              btn.firstChild.nodeValue = 'Xem tập này ';
+              btn.firstChild.nodeValue = T('Xem tập này') + ' ';
             } else {
               media.append(h('iframe', {
                 src: 'https://www.youtube-nocookie.com/embed/' + id + '?rel=0',
-                title: 'Video: ' + p.title, loading: 'lazy', allowfullscreen: true,
+                title: T('Video: {t}', { t: title }), loading: 'lazy', allowfullscreen: true,
                 allow: 'accelerometer; encrypted-media; picture-in-picture; fullscreen',
                 referrerpolicy: 'strict-origin-when-cross-origin'
               }));
-              btn.firstChild.nodeValue = 'Đóng video ';
+              btn.firstChild.nodeValue = T('Đóng video') + ' ';
             }
             btn.setAttribute('aria-expanded', open ? 'false' : 'true');
           });
           actions.append(btn);
         }
-        actions.append(h('a', { class: 'text-link', href: ytUrl, target: '_blank', rel: 'noopener noreferrer', 'aria-label': 'Mở trên YouTube: ' + p.title }, 'Mở trên YouTube ', arrow(true)));
+        actions.append(h('a', { class: 'text-link', href: ytUrl, target: '_blank', rel: 'noopener noreferrer', 'aria-label': T('Mở trên YouTube: {t}', { t: title }) }, T('Mở trên YouTube') + ' ', arrow(true)));
       } else {
-        actions.append(h('span', { class: 'soft-note', text: 'Liên kết video sẽ được cập nhật.' }));
+        actions.append(h('span', { class: 'soft-note', text: T('Liên kết video sẽ được cập nhật.') }));
       }
       return h('article', { class: 'card' }, media,
         h('div', { class: 'card-body' },
           h('div', { class: 'card-meta' },
             h('span', { class: 'badge', text: 'Podcast' }),
-            p.episode ? h('span', { text: 'Tập ' + p.episode }) : null,
+            p.episode ? h('span', { text: T('Tập {n}', { n: p.episode }) }) : null,
             catName(p.category) ? h('span', { class: 'cat', text: catName(p.category) }) : null,
-            d ? h('span', { text: d }) : null),
-          h('h3', { text: p.title }),
-          p.description ? h('p', { text: p.description }) : null,
+            d ? h('span', { text: d }) : null, vnBadge(p)),
+          h('h3', { text: title }),
+          desc ? h('p', { text: desc }) : null,
           actions));
     }
 
     const KINDS = [['document', 'Tài liệu'], ['tool', 'Công cụ'], ['course', 'Khóa học'], ['other', 'Khác']];
-    function kindName(k) { const x = KINDS.filter(function (i) { return i[0] === k; })[0]; return x ? x[1] : ''; }
-    const DISCLOSURE = 'Một số liên kết trên trang này có thể là liên kết tiếp thị (affiliate). Mình có thể nhận một khoản hoa hồng nhỏ, không làm tăng chi phí của bạn.';
+    function kindName(k) { const x = KINDS.filter(function (i) { return i[0] === k; })[0]; return x ? T(x[1]) : ''; }
+    function disclosure() { return T('Một số liên kết trên trang này có thể là liên kết tiếp thị (affiliate). Mình có thể nhận một khoản hoa hồng nhỏ, không làm tăng chi phí của bạn.'); }
     function linkedCover(cover, url) {
       if (!url) return cover;
       return h('a', { href: url, target: '_blank', rel: 'sponsored noopener noreferrer', tabindex: '-1', 'aria-hidden': 'true' }, cover);
     }
     function resourceCard(r) {
-      const url = safeUrl(r.url, { allowRelative: false });
+      const url = safeUrl(r.url, { allowRelative: false }), title = loc(r, 'title'), desc = loc(r, 'description');
       const kl = kindName(r.kind), cl = catName(r.category);
       return h('article', { class: 'book res' },
-        h('div', { class: 'book-cover' }, linkedCover(coverNode(r.cover, 'Hình minh họa: ' + r.title, kl || 'Tài liệu'), url)),
+        h('div', { class: 'book-cover' }, linkedCover(coverNode(r.cover, T('Hình minh họa: {t}', { t: title }), kl || T('Tài liệu')), url)),
         h('div', { class: 'book-body' },
           (kl || cl) ? h('span', { class: 'small-label', text: [kl, cl].filter(Boolean).join(' · ') }) : null,
-          h('h3', { text: r.title }),
-          r.description ? h('p', { class: 'book-note', text: r.description }) : null,
-          url ? h('a', { class: 'text-link', href: url, target: '_blank', rel: 'sponsored noopener noreferrer', 'aria-label': 'Xem chi tiết: ' + r.title + ' (có thể là liên kết tiếp thị)' }, 'Xem chi tiết ', arrow(true)) : null));
+          h('h3', { text: title }),
+          desc ? h('p', { class: 'book-note', text: desc }) : null,
+          vnBadge(r),
+          url ? h('a', { class: 'text-link', href: url, target: '_blank', rel: 'sponsored noopener noreferrer', 'aria-label': T('Xem chi tiết: {t} (có thể là liên kết tiếp thị)', { t: title }) }, T('Xem chi tiết') + ' ', arrow(true)) : null));
     }
 
     function bookCard(b) {
-      const url = safeUrl(b.affiliateUrl, { allowRelative: false });
+      const url = safeUrl(b.affiliateUrl, { allowRelative: false }), title = loc(b, 'title'), note = loc(b, 'note');
       const label = b.category ? catName(b.category) : '';
       return h('article', { class: 'book' },
-        h('div', { class: 'book-cover' }, linkedCover(coverNode(b.cover, 'Bìa sách ' + b.title, 'Sách'), url)),
+        h('div', { class: 'book-cover' }, linkedCover(coverNode(b.cover, T('Bìa sách {t}', { t: title }), T('Sách')), url)),
         h('div', { class: 'book-body' },
           label ? h('span', { class: 'small-label', text: label }) : null,
-          h('h3', { text: b.title }),
+          h('h3', { text: title }),
           b.author ? h('p', { class: 'book-author', text: b.author }) : null,
-          b.note ? h('p', { class: 'book-note', text: b.note }) : null,
-          url ? h('a', { class: 'text-link', href: url, target: '_blank', rel: 'sponsored noopener noreferrer', 'aria-label': 'Xem sách: ' + b.title + ' (liên kết tiếp thị)' }, 'Xem sách ', arrow(true)) : null));
+          note ? h('p', { class: 'book-note', text: note }) : null,
+          (LANG === 'en' && !(b.en && (b.en.note || b.en.title)) && note) ? h('p', { class: 'lang-note', text: T('Bản tiếng Việt') }) : null,
+          url ? h('a', { class: 'text-link', href: url, target: '_blank', rel: 'sponsored noopener noreferrer', 'aria-label': T('Xem sách: {t} (liên kết tiếp thị)', { t: title }) }, T('Xem sách') + ' ', arrow(true)) : null));
     }
 
     function articleViewNode(a, backHref) {
-      const d = fmtDate(a.date);
+      const d = fmtDate(a.date), title = loc(a, 'title'), excerpt = loc(a, 'excerpt');
+      const hasBody = LANG === 'en' && a.en && a.en.body;
       return h('div', { class: 'article-wrap' },
-        h('a', { class: 'back-link', href: backHref, text: '← Quay lại thư viện' }),
+        h('a', { class: 'back-link', href: backHref, text: T('← Quay lại thư viện') }),
         h('header', { class: 'article-head' },
           catName(a.category) ? h('p', { class: 'eyebrow', text: catName(a.category) }) : null,
-          h('h1', { text: a.title }),
-          a.excerpt ? h('p', { class: 'article-lead', text: a.excerpt }) : null,
-          d ? h('span', { class: 'article-date', text: 'Ngày đăng ' + d }) : null),
-        a.cover ? h('div', { class: 'article-cover' }, coverNode(a.cover, a.coverAlt || a.title, catName(a.category))) : null,
-        h('div', { class: 'prose' }, renderBody(a.body)),
-        a.tags.length ? h('ul', { class: 'tag-list', 'aria-label': 'Thẻ chủ đề' }, a.tags.map(function (t) { return h('li', { text: t }); })) : null);
+          h('h1', { text: title }),
+          excerpt ? h('p', { class: 'article-lead', text: excerpt }) : null,
+          d ? h('span', { class: 'article-date', text: T('Ngày đăng {d}', { d: d }) }) : null),
+        (LANG === 'en' && !hasBody) ? h('p', { class: 'lang-note', text: T('Bài viết này hiện chỉ có tiếng Việt.') }) : null,
+        a.cover ? h('div', { class: 'article-cover' }, coverNode(a.cover, loc(a, 'coverAlt') || title, catName(a.category))) : null,
+        h('div', { class: 'prose', lang: (LANG === 'en' && !hasBody) ? 'vi' : null }, renderBody(hasBody ? a.en.body : a.body)),
+        a.tags.length ? h('ul', { class: 'tag-list', 'aria-label': T('Thẻ chủ đề') }, a.tags.map(function (t) { return h('li', { text: t }); })) : null);
     }
 
     /* ===== Trang chủ: tải content.json và dựng giao diện ===== */
@@ -950,6 +1102,13 @@
       };
       let articleOpen = false;
 
+      function setHomeMeta() {
+        setMeta(defTitle(), defDesc());
+        document.querySelector('meta[property="og:title"]').content = T(defaults.ogTitle);
+        document.querySelector('meta[property="og:description"]').content = T(defaults.ogDesc);
+      }
+      function defTitle() { return T(defaults.title); }
+      function defDesc() { return T(defaults.desc); }
       function setMeta(title, desc) {
         document.title = title;
         document.querySelector('meta[name="description"]').content = desc;
@@ -973,7 +1132,7 @@
           const key = card.getAttribute('data-cat');
           const n = mixed().filter(function (x) { return x.category === key; }).length;
           const span = card.querySelector('.series-link');
-          span.textContent = 'Khám phá chủ đề ↓' + (n ? ' · ' + n + ' nội dung' : '');
+          span.textContent = T('Khám phá chủ đề ↓') + (n ? ' · ' + T('{n} nội dung', { n: n }) : '');
         });
       }
 
@@ -986,14 +1145,15 @@
         grid.className = 'featured-grid' + (list.length === 1 ? ' single' : '');
         list.forEach(function (it) {
           const link = itemLink(it);
-          const label = (it._t === 'podcast' ? 'Podcast' : 'Bài viết') + (catName(it.category) ? ' · ' + catName(it.category) : '');
-          const text = it._t === 'podcast' ? it.description : it.excerpt;
+          const label = (it._t === 'podcast' ? 'Podcast' : T('Bài viết#one')) + (catName(it.category) ? ' · ' + catName(it.category) : '');
+          const text = it._t === 'podcast' ? loc(it, 'description') : loc(it, 'excerpt');
           grid.append(h('article', { class: 'featured-card' },
             h('span', { class: 'small-label', text: label }),
-            h('h3', { text: it.title }),
+            h('h3', { text: loc(it, 'title') }),
             text ? h('p', { text: text }) : null,
-            link ? h('a', Object.assign({ class: 'text-link', 'aria-label': (it._t === 'podcast' ? 'Xem tập: ' : 'Đọc: ') + it.title }, linkAttrs(link)),
-              it._t === 'podcast' ? 'Xem tập này ' : (link.external ? 'Đọc bài viết ' : 'Đọc tiếp '), arrow(link.external)) : null));
+            vnBadge(it),
+            link ? h('a', Object.assign({ class: 'text-link', 'aria-label': T(it._t === 'podcast' ? 'Xem tập: {t}' : 'Đọc: {t}', { t: loc(it, 'title') }) }, linkAttrs(link)),
+              T(it._t === 'podcast' ? 'Xem tập này' : (link.external ? 'Đọc bài viết' : 'Đọc tiếp')) + ' ', arrow(link.external)) : null));
         });
       }
 
@@ -1001,16 +1161,16 @@
       function renderLatest() {
         const box = $('latest-list'), list = mixed().slice(0, 5);
         box.replaceChildren();
-        if (state.failed) { box.append(emptyBox('Chưa tải được nội dung lúc này. Bạn thử tải lại trang sau ít phút nhé.')); return; }
-        if (!list.length) { box.append(emptyBox('Những bài viết và tập podcast đầu tiên đang được chuẩn bị. Nội dung sẽ xuất hiện tại đây khi sẵn sàng.')); return; }
+        if (state.failed) { box.append(emptyBox(T('Chưa tải được nội dung lúc này. Bạn thử tải lại trang sau ít phút nhé.'))); return; }
+        if (!list.length) { box.append(emptyBox(T('Những bài viết và tập podcast đầu tiên đang được chuẩn bị. Nội dung sẽ xuất hiện tại đây khi sẵn sàng.'))); return; }
         list.forEach(function (it) {
           const link = itemLink(it);
-          const meta = [catName(it.category), it._t === 'podcast' && it.episode ? 'Tập ' + it.episode : ''].filter(Boolean).join(' · ');
+          const meta = [catName(it.category), it._t === 'podcast' && it.episode ? T('Tập {n}', { n: it.episode }) : ''].filter(Boolean).join(' · ');
           box.append(h('article', { class: 'latest-item' },
-            h('span', { class: 'latest-type', text: it._t === 'podcast' ? 'Podcast' : 'Bài viết' }),
+            h('span', { class: 'latest-type', text: it._t === 'podcast' ? 'Podcast' : T('Bài viết#one') }),
             h('div', null,
-              h('h3', null, link ? h('a', linkAttrs(link), it.title) : it.title),
-              meta ? h('p', { text: meta }) : null),
+              h('h3', null, link ? h('a', linkAttrs(link), loc(it, 'title')) : loc(it, 'title')),
+              meta || vnOnly(it) ? h('p', { text: meta + (vnOnly(it) ? (meta ? ' · ' : '') + T('Bản tiếng Việt') : '') }) : null),
             h('span', { class: 'latest-status', text: fmtDate(it.date) })));
         });
       }
@@ -1028,14 +1188,14 @@
         if (!all.length) return;
         const controls = $('library-controls');
         controls.replaceChildren(
-          h('div', { class: 'chip-group', role: 'group', 'aria-label': 'Lọc theo hình thức' },
-            h('span', { class: 'chip-label', text: 'Hình thức' }),
-            chip('Tất cả', state.type === 'all', function () { setFilter({ type: 'all' }); }),
-            chip('Bài viết', state.type === 'article', function () { setFilter({ type: 'article' }); }),
+          h('div', { class: 'chip-group', role: 'group', 'aria-label': T('Lọc theo hình thức') },
+            h('span', { class: 'chip-label', text: T('Hình thức') }),
+            chip(T('Tất cả'), state.type === 'all', function () { setFilter({ type: 'all' }); }),
+            chip(T('Bài viết'), state.type === 'article', function () { setFilter({ type: 'article' }); }),
             chip('Podcast', state.type === 'podcast', function () { setFilter({ type: 'podcast' }); })),
-          h('div', { class: 'chip-group', role: 'group', 'aria-label': 'Lọc theo chuyên mục' },
-            h('span', { class: 'chip-label', text: 'Chuyên mục' }),
-            chip('Tất cả', state.cat === 'all', function () { setFilter({ cat: 'all' }); }),
+          h('div', { class: 'chip-group', role: 'group', 'aria-label': T('Lọc theo chuyên mục') },
+            h('span', { class: 'chip-label', text: T('Chuyên mục') }),
+            chip(T('Tất cả'), state.cat === 'all', function () { setFilter({ cat: 'all' }); }),
             CATEGORIES.map(function (c) { return chip(c.name, state.cat === c.key, function () { setFilter({ cat: c.key }); }); })));
         const filtered = all.filter(function (x) {
           return (state.type === 'all' || x._t === state.type) && (state.cat === 'all' || x.category === state.cat);
@@ -1043,11 +1203,11 @@
         const grid = $('library-grid'), more = $('library-more');
         grid.replaceChildren();
         more.hidden = true;
-        $('library-count').textContent = filtered.length ? 'Đang hiển thị ' + Math.min(state.shown, filtered.length) + ' / ' + filtered.length + ' nội dung' : '';
+        $('library-count').textContent = filtered.length ? T('Đang hiển thị {a} / {b} nội dung', { a: Math.min(state.shown, filtered.length), b: filtered.length }) : '';
         if (!filtered.length) {
-          const reset = h('button', { type: 'button', class: 'button', text: 'Xem tất cả nội dung' });
+          const reset = h('button', { type: 'button', class: 'button', text: T('Xem tất cả nội dung') });
           reset.addEventListener('click', function () { setFilter({ type: 'all', cat: 'all' }); });
-          grid.append(h('div', { class: 'empty-state', style: 'grid-column:1/-1' }, 'Chưa có nội dung nào trong lựa chọn này.', h('br'), reset));
+          grid.append(h('div', { class: 'empty-state', style: 'grid-column:1/-1' }, T('Chưa có nội dung nào trong lựa chọn này.'), h('br'), reset));
           return;
         }
         filtered.slice(0, state.shown).forEach(function (it) { grid.append(it._t === 'podcast' ? podcastCard(it) : articleCard(it)); });
@@ -1063,31 +1223,31 @@
       function orderList(list) {
         return sortNewest(list.filter(function (b) { return b.featured; })).concat(sortNewest(list.filter(function (b) { return !b.featured; })));
       }
-      function teaser(box, list, href, noun, emptyText, kind) {
+      function teaser(box, list, href, labelKey, emptyText, kind) {
         box.replaceChildren();
         if (!list.length) { box.append(h('span', { class: 'soft-note', text: emptyText })); return; }
         const strip = h('div', { class: 'cover-strip ' + kind });
         list.slice(0, 4).forEach(function (it) { strip.append(h('a', { href: href, tabindex: '-1', 'aria-hidden': 'true' }, coverNode(it.cover, '', ''))); });
-        box.append(strip, h('a', { class: 'text-link', href: href }, 'Xem ' + list.length + ' ' + noun + ' ', arrow(false)));
+        box.append(strip, h('a', { class: 'text-link', href: href }, T(labelKey, { n: list.length }) + ' ', arrow(false)));
       }
       function renderReading() {
         const books = orderList(state.books), res = orderList(state.resources);
-        teaser($('reading-books'), books, '#/sach', 'cuốn sách', state.failed ? 'Chưa tải được danh sách sách lúc này.' : 'Danh sách sách đầu tiên đang được chuẩn bị.', 'bk');
+        teaser($('reading-books'), books, '#/sach', 'Xem {n} cuốn sách', state.failed ? T('Chưa tải được danh sách sách lúc này.') : T('Danh sách sách đầu tiên đang được chuẩn bị.'), 'bk');
         $('learning-status').hidden = res.length > 0;
-        teaser($('learning-items'), res, '#/tai-lieu', 'tài liệu & công cụ', '', 'rs');
+        teaser($('learning-items'), res, '#/tai-lieu', 'Xem {n} tài liệu & công cụ', '', 'rs');
       }
       function openList(kind) {
         const view = $('article-view');
         articleOpen = true; $('home').hidden = true; view.hidden = false; view.replaceChildren();
-        if (!state.ready) { view.append(h('div', { class: 'wrap' }, h('p', { class: 'soft-note', text: 'Đang tải…' }))); return; }
+        if (!state.ready) { view.append(h('div', { class: 'wrap' }, h('p', { class: 'soft-note', text: T('Đang tải…') }))); return; }
         const cfg = kind === 'sach'
-          ? { label: 'Reading Corner', title: 'Những cuốn sách đáng đọc', intro: 'Sách về tâm lý, hành vi, lãnh đạo, tư duy hệ thống và phát triển bản thân — kèm ghi chú của K.C. Wright.', list: orderList(state.books), card: bookCard, grid: 'book-grid', empty: 'Danh sách sách đầu tiên đang được chuẩn bị.' }
-          : { label: 'Learning Resources', title: 'Tài liệu và công cụ học tập', intro: 'Các nguồn tham khảo, framework và công cụ thực hành được chọn lọc từ quá trình học hỏi và trải nghiệm.', list: orderList(state.resources), card: resourceCard, grid: 'book-grid res-grid', empty: 'Danh sách này đang được chuẩn bị.' };
+          ? { label: 'Reading Corner', title: T('Những cuốn sách đáng đọc'), intro: T('Sách về tâm lý, hành vi, lãnh đạo, tư duy hệ thống và phát triển bản thân — kèm ghi chú của K.C. Wright.'), list: orderList(state.books), card: bookCard, grid: 'book-grid', empty: T('Danh sách sách đầu tiên đang được chuẩn bị.') }
+          : { label: 'Learning Resources', title: T('Tài liệu và công cụ học tập'), intro: T('Các nguồn tham khảo, framework và công cụ thực hành được chọn lọc từ quá trình học hỏi và trải nghiệm.'), list: orderList(state.resources), card: resourceCard, grid: 'book-grid res-grid', empty: T('Danh sách này đang được chuẩn bị.') };
         view.append(h('div', { class: 'wrap list-view' },
-          h('a', { class: 'back-link', href: '#doc-va-hoc', text: '← Quay lại' }),
+          h('a', { class: 'back-link', href: '#doc-va-hoc', text: T('← Quay lại') }),
           h('header', { class: 'article-head' }, h('p', { class: 'eyebrow', text: cfg.label }), h('h1', { text: cfg.title }), h('p', { class: 'article-lead', text: cfg.intro })),
-          cfg.list.length ? [h('p', { class: 'disclosure', text: DISCLOSURE }), h('div', { class: cfg.grid }, cfg.list.map(cfg.card))] : h('p', { class: 'empty-state', text: cfg.empty })));
-        setMeta(cfg.title + ' – K.C. Wright', defaults.desc);
+          cfg.list.length ? [h('p', { class: 'disclosure', text: disclosure() }), h('div', { class: cfg.grid }, cfg.list.map(cfg.card))] : h('p', { class: 'empty-state', text: cfg.empty })));
+        setMeta(cfg.title + ' – K.C. Wright', defDesc());
         window.scrollTo(0, 0);
         const hh = view.querySelector('h1'); hh.setAttribute('tabindex', '-1'); hh.focus({ preventScroll: true });
       }
@@ -1100,19 +1260,19 @@
         view.replaceChildren();
         const backHref = $('thu-vien').hidden ? '#noi-dung' : '#thu-vien';
         if (!state.ready) {
-          view.append(h('div', { class: 'article-wrap' }, h('p', { class: 'soft-note', text: 'Đang tải bài viết…' })));
+          view.append(h('div', { class: 'article-wrap' }, h('p', { class: 'soft-note', text: T('Đang tải bài viết…') })));
           return;
         }
         const a = state.articles.filter(function (x) { return x.slug === slug && x.body; })[0];
         if (!a) {
           view.append(h('div', { class: 'article-wrap' },
-            h('a', { class: 'back-link', href: backHref, text: '← Quay lại thư viện' }),
-            h('h1', { text: 'Không tìm thấy bài viết' }),
-            h('p', { class: 'soft-note', text: 'Bài viết này có thể đã được đổi địa chỉ hoặc chưa được xuất bản.' })));
-          setMeta('Không tìm thấy bài viết – K.C. Wright', defaults.desc);
+            h('a', { class: 'back-link', href: backHref, text: T('← Quay lại thư viện') }),
+            h('h1', { text: T('Không tìm thấy bài viết') }),
+            h('p', { class: 'soft-note', text: T('Bài viết này có thể đã được đổi địa chỉ hoặc chưa được xuất bản.') })));
+          setMeta(T('Không tìm thấy bài viết') + ' – K.C. Wright', defDesc());
         } else {
           view.append(articleViewNode(a, backHref));
-          setMeta(a.title + ' – K.C. Wright', a.excerpt || defaults.desc);
+          setMeta(loc(a, 'title') + ' – K.C. Wright', loc(a, 'excerpt') || defDesc());
         }
         window.scrollTo(0, 0);
         view.querySelector('h1').setAttribute('tabindex', '-1');
@@ -1122,9 +1282,7 @@
         if (!articleOpen) return;
         articleOpen = false;
         $('home').hidden = false; $('article-view').hidden = true;
-        setMeta(defaults.title, defaults.desc);
-        document.querySelector('meta[property="og:title"]').content = defaults.ogTitle;
-        document.querySelector('meta[property="og:description"]').content = defaults.ogDesc;
+        setHomeMeta();
         scrollToHash();
       }
       function scrollToHash() {
@@ -1174,6 +1332,43 @@
             if (/^#\/(bai-viet\/|sach|tai-lieu)/.test(location.hash)) route(); else if (location.hash) scrollToHash();
           });
       }
+
+      /* ---- Ngôn ngữ ---- */
+      const staticEls = Array.prototype.slice.call(document.querySelectorAll('[data-i18n]'));
+      staticEls.forEach(function (el) {
+        let s = '';
+        el.childNodes.forEach(function (n) { if (n.nodeType === 3) s += n.nodeValue; else if (n.nodeName === 'BR') s += '\n'; });
+        el._vi = s;
+      });
+      function setText(el, text) {
+        el.replaceChildren();
+        text.split('\n').forEach(function (part, i) { if (i) el.append(document.createElement('br')); el.append(part); });
+      }
+      function applyStatic() {
+        staticEls.forEach(function (el) { setText(el, T(el._vi)); });
+        document.querySelector('.brand').setAttribute('aria-label', T('K.C. Wright – Hành trình trở thành'));
+        document.querySelector('.nav-links').setAttribute('aria-label', T('Điều hướng chính'));
+        document.querySelector('.lang-switch').setAttribute('aria-label', T('Ngôn ngữ'));
+      }
+      function detectLang() {
+        const q = /[?&]lang=(vi|en)\b/.exec(location.search);
+        if (q) return q[1];
+        try { const s = localStorage.getItem('kc_lang'); if (s === 'vi' || s === 'en') return s; } catch (e) { }
+        const nav = (navigator.languages && navigator.languages[0]) || navigator.language || 'vi';
+        return /^vi\b/i.test(nav) ? 'vi' : 'en';
+      }
+      function setLang(l, persist) {
+        LANG = l; document.documentElement.lang = l;
+        if (persist) { try { localStorage.setItem('kc_lang', l); } catch (e) { } }
+        document.querySelectorAll('.lang-btn').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-lang') === l ? 'true' : 'false'); });
+        applyStatic();
+        if (state.ready) renderAll(); else renderCounts();
+        if (articleOpen) { const y = window.scrollY; route(); window.scrollTo(0, y); } else setHomeMeta();
+      }
+      document.querySelectorAll('.lang-btn').forEach(function (b) {
+        b.addEventListener('click', function () { setLang(b.getAttribute('data-lang'), true); });
+      });
+      setLang(detectLang(), false);
 
       try { if (localStorage.getItem('kc_owner') === '1') $('owner-edit').hidden = false; } catch (e) { }
       window.addEventListener('hashchange', route);
