@@ -3,6 +3,21 @@
   "articles": [],
   "podcasts": [
     {
+      "id": "pod-mw948alt6ihn",
+      "type": "podcast",
+      "title": "Tại sao thất bại lại khiến chúng ta lại thấy mình kém cỏi ?",
+      "category": "notes-on-becoming",
+      "excerpt": "",
+      "description": "Có điều gì bạn đã từng rất muốn làm, nhưng mãi vẫn chưa bắt đầu vì sợ mình không đủ giỏi?\nMình nghĩ đôi khi nhìn lại những điều mình chưa dám thử cũng là một cách để hiểu bản thân hơn.",
+      "cover": "images/tai-sao-that-bai-lai-khien-chung-ta-lai--mw94aau4.jpg",
+      "date": "2026-11-09",
+      "featured": false,
+      "status": "draft",
+      "youtube": "https://www.youtube.com/watch?v=5NOe4Vhm4w8",
+      "episode": null,
+      "coverAlt": ""
+    },
+    {
       "id": "pod-mw1s2y2zkt71",
       "type": "podcast",
       "title": "Hồi ấy mình gan thật.",
