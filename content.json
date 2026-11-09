@@ -12,7 +12,7 @@
       "cover": "images/tai-sao-that-bai-lai-khien-chung-ta-lai--mw94aau4.jpg",
       "date": "2026-11-09",
       "featured": false,
-      "status": "draft",
+      "status": "published",
       "youtube": "https://www.youtube.com/watch?v=5NOe4Vhm4w8",
       "episode": null,
       "coverAlt": ""
@@ -61,7 +61,7 @@
       "cover": "images/the-first-time-team-lead-playbook-mw94gvvp.jpg",
       "date": "2026-11-09",
       "featured": false,
-      "status": "draft",
+      "status": "published",
       "kind": "other",
       "url": "https://www.amazon.com/dp/B0HPBK2J9M?spcref=PRE_ORDER_RELEASED_WITH_SELECT"
     }
