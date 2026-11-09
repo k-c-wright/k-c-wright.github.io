@@ -50,5 +50,20 @@
       "affiliateUrl": "https://shopee.vn/Sách-Quyền-Lực-Đích-Thực-i.633022203.16299286655"
     }
   ],
-  "resources": []
+  "resources": [
+    {
+      "id": "res-mw94fcewf67c",
+      "type": "resource",
+      "title": "The First-time Team Lead Playbook (Book 1)",
+      "category": "leadership-coaching",
+      "excerpt": "",
+      "description": "You were great at the job. Now you have to lead the people doing it.\nYour first 1:1 meetings with your team can feel awkward. You review the numbers, repeat the targets, and tell people what to do. The conversation ends, and nothing changes.\n\nRun a Better 1:1 Session shows new managers and first-time team leads how to turn 1:1 meetings into real coaching conversations. It is Book 1 of The First-time Team Lead Playbook series, written by a team lead from a fast-paced, KPI-driven call center and advertising operations environment. No corporate theory. Just clear frameworks, real cases, and tools you can use this week.",
+      "cover": "images/the-first-time-team-lead-playbook-mw94gvvp.jpg",
+      "date": "2026-11-09",
+      "featured": false,
+      "status": "draft",
+      "kind": "other",
+      "url": "https://www.amazon.com/dp/B0HPBK2J9M?spcref=PRE_ORDER_RELEASED_WITH_SELECT"
+    }
+  ]
 }
