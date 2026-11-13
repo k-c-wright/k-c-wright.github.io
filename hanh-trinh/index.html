@@ -15,7 +15,13 @@ section.c{padding:44px 0 8px}.ch{display:flex;gap:14px;align-items:baseline;bord
 .tl{position:relative;padding-left:34px;margin:18px 0 26px}.tl:before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--ln)}
 .it{position:relative;margin:0 0 20px}.it:before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--iv);border:2px solid var(--go)}
 .it.k:before{background:var(--ru);border-color:var(--ru)}.d{font-size:12.5px;letter-spacing:.07em;color:var(--ru);font-weight:600}.it p{margin:2px 0 0}
-.g{display:grid;gap:14px;grid-template-columns:1fr;margin:20px 0}@media(min-width:700px){.g.two{grid-template-columns:1fr 1fr}}
+.g{display:grid;gap:14px;grid-template-columns:1fr;margin:20px 0}@media(min-width:700px){.g.two,.g.c2{grid-template-columns:1fr 1fr}}
+.g.c3,.g.c4{grid-template-columns:repeat(3,1fr);gap:8px}.g.c3 img,.g.c4 img{aspect-ratio:4/3;object-fit:cover}.g.c3 figcaption,.g.c4 figcaption{font-size:12.5px;line-height:1.45}
+@media(min-width:700px){.g.c3,.g.c4{gap:12px}.g.c4{grid-template-columns:repeat(4,1fr)}}
+figure img{cursor:zoom-in}
+.lb{position:fixed;inset:0;background:rgba(20,28,24,.92);z-index:50;display:none;flex-direction:column;align-items:center;justify-content:center;padding:calc(16px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom))}.lb.on{display:flex}
+.lb img{max-width:100%;max-height:78vh;object-fit:contain;border-radius:10px;cursor:default;border:0}.lb p{color:#EDE8DC;font-size:14px;font-style:italic;text-align:center;max-width:640px;margin:12px 0 0;min-height:1.5em}
+.lb button{position:absolute;background:rgba(255,255,255,.14);color:#fff;border:0;border-radius:99px;width:44px;height:44px;font-size:22px;cursor:pointer}.lb .x{top:calc(12px + env(safe-area-inset-top));right:12px}.lb .pv{left:10px;top:50%;margin-top:-22px}.lb .nx{right:10px;top:50%;margin-top:-22px}.lb.one .pv,.lb.one .nx{display:none}
 figure{margin:0}figure img{width:100%;display:block;border-radius:14px;border:1px solid var(--ln)}figcaption{font-size:14px;color:var(--mu);margin-top:8px;font-style:italic}
 .st{display:grid;grid-template-columns:repeat(auto-fit,minmax(138px,1fr));gap:12px;margin:22px 0}
 .st div{background:#fff;border:1px solid var(--ln);border-radius:14px;padding:16px}.st b{display:block;font:600 36px/1.1 Lora,serif;color:var(--fo)}.st span{font-size:13px;color:var(--mu)}
@@ -29,6 +35,7 @@ footer{margin-top:40px;padding:30px 0 50px;border-top:1px solid var(--ln);color:
 <header class="hero"><div class="wrap rv"><div class="eb" id="eb"></div><h1 id="ti"></h1><p id="in"></p><nav class="nav" id="nv"></nav></div></header>
 <main class="wrap" id="ch"></main>
 <footer><div class="wrap" id="ft"></div></footer>
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Xem ảnh"><button class="x" aria-label="Đóng">×</button><button class="pv" aria-label="Ảnh trước">‹</button><img alt=""><p></p><button class="nx" aria-label="Ảnh sau">›</button></div>
 <script>
 const L=document.getElementById('d');
 (L?Promise.resolve(JSON.parse(L.textContent)):fetch('hanh-trinh.json?'+Date.now()).then(r=>r.json())).then(D=>{
@@ -36,7 +43,8 @@ const $=s=>document.querySelector(s),E=s=>String(s==null?'':s).replace(/&/g,'&am
 document.title=S.page_title;$('#bn').textContent=S.banner||'';$('#bn').hidden=!S.banner;
 $('#eb').textContent=S.eyebrow;$('#ti').textContent=S.title;$('#in').textContent=S.intro;$('#ft').textContent=S.footer;
 $('#nv').innerHTML=D.chapters.map((c,i)=>`<a href="#c${i+1}">${E(c.num)} · ${E(c.title)}</a>`).join('');
-const fig=p=>`<figure><img src="${E(p.image)}" alt="${E(p.caption||'Ảnh')}" loading="lazy">${p.caption?`<figcaption>${E(p.caption)}</figcaption>`:''}</figure>`;
+const fig=(p,gi,pi)=>`<figure><img src="${E(p.image)}" alt="${E(p.caption||'Ảnh')}" loading="lazy"${gi==null?'':` data-g="${gi}" data-i="${pi}"`}>${p.caption?`<figcaption>${E(p.caption)}</figcaption>`:''}</figure>`;
+const GAL=[];
 $('#ch').innerHTML=D.chapters.map((c,i)=>{
  let h=`<section class="c rv" id="c${i+1}"><div class="ch"><b>${E(c.num)}</b><div><h2>${E(c.title)}</h2><small>${E(c.small)}</small></div></div>`;
  const lead=c.lead?`<p class="lead"${c.side_image?' style="margin-top:0"':''}>${R(c.lead)}</p>`:'',paras=(c.paras||[]).map(x=>`<p>${R(x)}</p>`).join(''),note=c.note?`<div class="todo">${R(c.note)}</div>`:'';
@@ -44,9 +52,20 @@ $('#ch').innerHTML=D.chapters.map((c,i)=>{
  if((c.stats||[]).length)h+=`<div class="st">${c.stats.map(x=>`<div><b>${E(x.b)}</b><span>${E(x.span)}</span></div>`).join('')}</div>`;
  if((c.timeline||[]).length)h+=`<div class="tl">${c.timeline.map(x=>`<div class="it${x.k?' k':''}"><div class="d">${E(x.d)}</div><p>${R(x.p)}</p></div>`).join('')}</div>`;
  if((c.pride||[]).length)h+=(c.pride_title?`<div class="sub">${E(c.pride_title)}</div>`:'')+`<div class="pr">${c.pride.map(x=>`<div><b>${E(x.b)}</b><p>${R(x.p)}</p></div>`).join('')}</div>`;
- (c.galleries||[]).forEach(g=>{if((g.photos||[]).length)h+=`<div class="g${g.cols=='2'?' two':''}">${g.photos.map(fig).join('')}</div>`});
+ (c.galleries||[]).forEach(g=>{const ps=(g.photos||[]).filter(p=>p&&p.image);if(!ps.length)return;const n=Math.min(4,Math.max(1,parseInt(g.cols)||1)),gi=GAL.push(ps)-1;h+=`<div class="g${n>1?' c'+n:''}">${ps.map((p,pi)=>fig(p,gi,pi)).join('')}</div>`});
  if(!c.side_image)h+=note;
  return h+'</section>'}).join('');
+const lb=$('#lb'),li=lb.querySelector('img'),lc=lb.querySelector('p');let cg=0,ci=0,tx=null;
+const show=()=>{const ps=GAL[cg],p=ps[ci];li.src=p.image;li.alt=p.caption||'Ảnh';lc.textContent=p.caption||'';lb.classList.toggle('one',ps.length<2)},
+ open=(g,i)=>{cg=g;ci=i;show();lb.classList.add('on');document.body.style.overflow='hidden'},
+ close=()=>{lb.classList.remove('on');document.body.style.overflow=''},
+ step=d=>{const n=GAL[cg].length;ci=(ci+d+n)%n;show()};
+$('#ch').addEventListener('click',e=>{const t=e.target.closest('img[data-g]');if(t)open(+t.dataset.g,+t.dataset.i)});
+lb.querySelector('.x').onclick=close;lb.querySelector('.pv').onclick=()=>step(-1);lb.querySelector('.nx').onclick=()=>step(1);
+lb.addEventListener('click',e=>{if(e.target===lb)close()});
+document.addEventListener('keydown',e=>{if(!lb.classList.contains('on'))return;if(e.key=='Escape')close();if(e.key=='ArrowLeft')step(-1);if(e.key=='ArrowRight')step(1)});
+lb.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+lb.addEventListener('touchend',e=>{if(tx==null)return;const d=e.changedTouches[0].clientX-tx;tx=null;if(Math.abs(d)>50&&GAL[cg].length>1)step(d<0?1:-1)});
 const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('on');io.unobserve(x.target)}}),{threshold:.08});
 document.querySelectorAll('.rv').forEach(e=>io.observe(e));
 }).catch(()=>{document.querySelector('#ch').innerHTML='<p style="padding:30px 0">Không tải được nội dung. Hãy mở trang qua địa chỉ website.</p>'});
