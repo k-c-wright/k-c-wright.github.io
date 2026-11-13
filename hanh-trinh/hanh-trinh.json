@@ -1,0 +1,238 @@
+{
+ "site": {
+  "page_title": "Hành trình | K.C. Wright",
+  "banner": "BẢN NHÁP — các ô vàng là phần đang chờ bạn bổ sung",
+  "eyebrow": "HÀNH TRÌNH TRỞ THÀNH",
+  "title": "Từ những năm lạc hướng đến một khoảng lặng của riêng mình",
+  "intro": "Mình chia sẻ hành trình này một cách thật nhất: những năm chưa biết mình là ai, những cuốn sách đổi hướng đời mình, và bước ngoặt ở Thái Lan.",
+  "footer": "© K.C. Wright · Hành trình trở thành"
+ },
+ "chapters": [
+  {
+   "num": "1",
+   "title": "Lạc hướng",
+   "small": "Thời sinh viên đến 2020",
+   "lead": "Ngày ấy mình đi học mà không biết học để làm gì.",
+   "paras": [],
+   "side_image": "",
+   "stats": [],
+   "timeline": [
+    {
+     "d": "THỜI SINH VIÊN",
+     "p": "Mình học Business Administration tại Đại học Quốc tế (IU), ĐHQG TP.HCM, hệ 4+0: học ở Việt Nam, lấy bằng của đại học nước ngoài. Người ta bảo ngành này để dễ tìm việc, thì mình cứ học. Sáng đến trường, chiều đi chơi, tối học cho xong. Người ta học 4 năm, mình học 6 năm, vì có 1 năm học tiếng Anh và 1 năm gap year. Mình chẳng có chiến lược gì cả.",
+     "k": false
+    },
+    {
+     "d": "SAU TỐT NGHIỆP",
+     "p": "Mình làm ở một trường liên cấp (L.), được 1 đến 2 tháng thì nghỉ. Một người chị giới thiệu mình vào một ngân hàng (E.), cũng 1 đến 2 tháng thì mình lại nghỉ.",
+     "k": false
+    },
+    {
+     "d": "06/2020 – 05/2021",
+     "p": "Một người bạn giới thiệu mình vào một công ty hàng tiêu dùng nhanh (O.). Ở đây, mình gặp một người chị và chị tặng mình một cuốn sách. Đó là hạt giống đầu tiên của hành trình tìm lại bản thân, mình kể ở chương sau.",
+     "k": true
+    },
+    {
+     "d": "05/2021 – 05/2022",
+     "p": "Mình làm ở một công ty bảo hiểm (A.) khoảng một năm, rồi sang Thái Lan.",
+     "k": false
+    }
+   ],
+   "pride_title": "",
+   "pride": [],
+   "galleries": [],
+   "note": "Chờ bạn xác nhận: năm tốt nghiệp (mình ghi 2019 trong lúc chờ bạn xác nhận, vì dictation ghi 2029)."
+  },
+  {
+   "num": "2",
+   "title": "Hạt giống",
+   "small": "06/2020 đến 2021",
+   "lead": "Mình từng ghét đọc sách vì đọc chậm, sai chính tả và hay bị chê. Vậy mà năm đó mình đọc hết cả kệ.",
+   "paras": [],
+   "side_image": "",
+   "stats": [],
+   "timeline": [
+    {
+     "d": "KHOẢNG 06/2020",
+     "p": "Một người chị thấy mình lo lắng và hay online, nên tặng cuốn *Bước chậm lại giữa thế giới vội vã*. Trong sách có nhắc đến mùa an cư ở Làng Mai (Pháp) của thiền sư Nhất Hạnh. Mình tò mò, và nhờ duyên đó tìm đến sách của thầy.",
+     "k": true
+    },
+    {
+     "d": "12/2020",
+     "p": "Vì tò mò, mình đọc *Hạnh Phúc Cầm Tay* của thiền sư Thích Nhất Hạnh và gặp được vị thầy tâm linh của mình.",
+     "k": true
+    },
+    {
+     "d": "CUỐI 2020 – 02/2021",
+     "p": "Mình đọc hơn 30 cuốn sách và đã đọc hết. Có lúc mình đọc gần như cả ngày vì quá cuốn. Cuối tuần, mình tập thiền và viết thư pháp.",
+     "k": false
+    },
+    {
+     "d": "02/2021",
+     "p": "Mình nộp đơn vào khóa đào tạo thiền tâm lý trị liệu của thầy Minh Niệm.",
+     "k": false
+    },
+    {
+     "d": "21/04/2021",
+     "p": "Mình đậu cả 3 vòng tuyển, nhưng quyết định không theo học.",
+     "k": true
+    }
+   ],
+   "pride_title": "",
+   "pride": [],
+   "galleries": [
+    {
+     "cols": "2",
+     "photos": [
+      {
+       "image": "images/sach.jpg",
+       "caption": "Mình từng ghét đọc sách. Vậy mà tất cả những cuốn này, mình đã đọc hết."
+      },
+      {
+       "image": "images/thu-phap.jpg",
+       "caption": "Mình viết thư pháp mỗi khi muốn thư giãn, chữa lành, hay chỉ cần một khoảng lặng, thường là cuối tuần."
+      }
+     ]
+    },
+    {
+     "cols": "1",
+     "photos": [
+      {
+       "image": "images/thu-bao-dau.jpg",
+       "caption": ""
+      }
+     ]
+    }
+   ],
+   "note": ""
+  },
+  {
+   "num": "3",
+   "title": "Bước ngoặt Thái Lan",
+   "small": "05/2022 đến 06/2026",
+   "lead": "Ở một công ty toàn cầu tại Thái Lan (T.), mình đi từ người làm việc trực tiếp với khách hàng đến người dẫn một đội 16 người, và đó cũng là nơi mình gắn bó lâu nhất: hơn 4 năm.",
+   "paras": [],
+   "side_image": "",
+   "stats": [
+    {
+     "b": "16",
+     "span": "người trong đội lớn nhất"
+    },
+    {
+     "b": "110%",
+     "span": "KPI năm 2024"
+    },
+    {
+     "b": "4",
+     "span": "giải thưởng và chứng nhận"
+    },
+    {
+     "b": "7",
+     "span": "lá thư tay từ các bạn trong team"
+    }
+   ],
+   "timeline": [
+    {
+     "d": "05/2022",
+     "p": "Sang Thái Lan, làm chuyên viên chăm sóc khách hàng doanh nghiệp vừa và nhỏ (SME Account Specialist) cho một nền tảng quảng cáo nổi tiếng.",
+     "k": false
+    },
+    {
+     "d": "2023",
+     "p": "Nhận giải Heavy Hitter Club, ghi nhận 12 tháng liên tiếp hiệu suất cao.",
+     "k": true
+    },
+    {
+     "d": "02/2024",
+     "p": "Lên Team Lead.",
+     "k": true
+    },
+    {
+     "d": "2024",
+     "p": "Đội đạt 110% KPI năm và nằm trong Top Revenue Team Globally.",
+     "k": false
+    },
+    {
+     "d": "06/2025 · 11/2025 · 05/2026",
+     "p": "Đội được vinh danh Star Team và Growth Team of the Month. Tháng 11/2025, mình dự KP Summit Day, chuyến đi của các team lead, OM và quản lý để nghỉ ngơi và lập kế hoạch năm sau.",
+     "k": false
+    },
+    {
+     "d": "30/06/2026",
+     "p": "Ngày cuối ở công ty T.",
+     "k": false
+    }
+   ],
+   "pride_title": "3 ĐIỀU MÌNH TỰ HÀO NHẤT Ở VAI TRÒ TEAM LEAD",
+   "pride": [
+    {
+     "b": "Mình từng nghĩ mình không làm được",
+     "p": "Nhưng cuối cùng mình đã làm được, và mình nghĩ là mình làm rất tốt."
+    },
+    {
+     "b": "Team Lead là người tạo ra sự rõ ràng",
+     "p": "Với mình, Team Lead không phải là người lãnh đạo người khác. Đó là người tạo ra sự rõ ràng để dẫn team, để team ngày càng trưởng thành. Và họ cũng cho mình cơ hội để trưởng thành hơn."
+    },
+    {
+     "b": "Nâng đỡ từng bước, đó là chữa lành",
+     "p": "Các bạn trong team đều chung mục đích với mình, và mình nâng đỡ từng bước để các bạn tự tin hơn và hiểu bản thân mình hơn. Với mình, đó là chữa lành. Những lá thư các bạn gửi là điều mình tự hào nhất."
+    }
+   ],
+   "galleries": [
+    {
+     "cols": "2",
+     "photos": [
+      {
+       "image": "images/heavy-hitter.jpg",
+       "caption": "Nhận giải Heavy Hitter Club."
+      },
+      {
+       "image": "images/team-1.jpg",
+       "caption": "Cả đội với giấy chứng nhận."
+      }
+     ]
+    },
+    {
+     "cols": "1",
+     "photos": [
+      {
+       "image": "images/chung-nhan.jpg",
+       "caption": "Trích từ chứng nhận của công ty (T.). Họ tên, logo và chữ ký đã được che lại."
+      }
+     ]
+    },
+    {
+     "cols": "2",
+     "photos": [
+      {
+       "image": "images/team-2.jpg",
+       "caption": "Ngày chia tay với đội."
+      },
+      {
+       "image": "images/team-3.jpg",
+       "caption": "Những buổi đi chơi cùng đội."
+      }
+     ]
+    }
+   ],
+   "note": "Chờ ảnh thư tay của các bạn trong team (sẽ làm mờ chữ và che tên để vẫn thấy là thư thật), cùng sự đồng ý của các bạn. Ảnh team đã được làm mờ mặt các bạn, chỉ giữ rõ mặt mình."
+  },
+  {
+   "num": "4",
+   "title": "Hôm nay",
+   "small": "Từ 07/2026",
+   "lead": "Mình làm sản phẩm chữa lành vì muốn chia sẻ hành trình của mình.",
+   "paras": [
+    "Hành trình ấy rất vất vả. Có lúc mình tuyệt vọng, thất vọng, gục ngã, rồi tự đứng dậy bằng chính mình. Người dẫn đường cho mình chỉ là những cuốn sách và lời dạy của thiền sư Nhất Hạnh, mình không có một người thầy cụ thể bên cạnh.",
+    "Nếu những gì mình đã trải qua giúp được ai đó đang loay hoay tìm hiểu chính mình, mình sẽ rất vui. Mình mong nó là một cái vỗ về, một cái ôm nhẹ cho bạn trên hành trình này."
+   ],
+   "side_image": "images/chan-dung.jpg",
+   "stats": [],
+   "timeline": [],
+   "pride_title": "",
+   "pride": [],
+   "galleries": [],
+   "note": "Chờ bạn xác nhận: câu về “người dẫn đường” (mình hiểu là sách và lời dạy của thiền sư Nhất Hạnh), và bạn có muốn thêm một dòng mời ghé shop Nhiên không."
+  }
+ ]
+}

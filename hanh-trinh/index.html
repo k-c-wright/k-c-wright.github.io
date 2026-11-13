@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Hành trình</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--iv:#F6F1E7;--fo:#2F4438;--ru:#B5522B;--go:#B98F4E;--mu:#5F6F66;--ln:#D8D2C2}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--iv);color:#22302A;font:16px/1.7 'Be Vietnam Pro',system-ui,sans-serif;padding-top:env(safe-area-inset-top)}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+.draft{background:var(--fo);color:#fff;text-align:center;font-size:13px;padding:6px}
+.hero{padding:64px 0 36px}.eb{letter-spacing:.14em;font-size:12px;color:var(--ru);font-weight:600}
+h1{font:600 clamp(34px,7vw,58px)/1.15 Lora,serif;color:var(--fo);margin:10px 0 14px}.hero p{max-width:600px;color:var(--mu);margin:0}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}.nav a{font-size:13px;color:var(--fo);border:1px solid var(--ln);border-radius:99px;padding:5px 14px;text-decoration:none;background:#fff}
+section.c{padding:44px 0 8px}.ch{display:flex;gap:14px;align-items:baseline;border-top:1px solid var(--ln);padding-top:26px;margin-bottom:6px}
+.ch b{font:600 54px/1 Lora,serif;color:var(--go)}.ch h2{font:600 clamp(24px,5vw,34px)/1.2 Lora,serif;color:var(--fo);margin:0}.ch small{display:block;font-size:13px;color:var(--mu);margin-top:4px;font-family:'Be Vietnam Pro'}
+.lead{font:500 clamp(18px,3.4vw,22px)/1.55 Lora,serif;color:var(--fo);margin:14px 0 22px;max-width:700px}
+.tl{position:relative;padding-left:34px;margin:18px 0 26px}.tl:before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--ln)}
+.it{position:relative;margin:0 0 20px}.it:before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--iv);border:2px solid var(--go)}
+.it.k:before{background:var(--ru);border-color:var(--ru)}.d{font-size:12.5px;letter-spacing:.07em;color:var(--ru);font-weight:600}.it p{margin:2px 0 0}
+.g{display:grid;gap:14px;grid-template-columns:1fr;margin:20px 0}@media(min-width:700px){.g.two{grid-template-columns:1fr 1fr}}
+figure{margin:0}figure img{width:100%;display:block;border-radius:14px;border:1px solid var(--ln)}figcaption{font-size:14px;color:var(--mu);margin-top:8px;font-style:italic}
+.st{display:grid;grid-template-columns:repeat(auto-fit,minmax(138px,1fr));gap:12px;margin:22px 0}
+.st div{background:#fff;border:1px solid var(--ln);border-radius:14px;padding:16px}.st b{display:block;font:600 36px/1.1 Lora,serif;color:var(--fo)}.st span{font-size:13px;color:var(--mu)}
+.todo{border:1px dashed var(--go);background:#FFF8E8;color:#7A5A20;padding:10px 14px;border-radius:12px;font-size:14px;margin:14px 0}
+.pr{display:grid;gap:12px;margin:24px 0}.pr div{background:#fff;border:1px solid var(--ln);border-left:4px solid var(--go);border-radius:12px;padding:14px 16px}.pr b{display:block;font:600 18px/1.35 Lora,serif;color:var(--fo);margin-bottom:4px}.pr p{margin:0}.sub{font:600 13px/1 "Be Vietnam Pro";letter-spacing:.1em;color:var(--ru);margin:26px 0 -8px}
+.rv{opacity:0;transform:translateY(14px);transition:opacity .7s,transform .7s}.rv.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+footer{margin-top:40px;padding:30px 0 50px;border-top:1px solid var(--ln);color:var(--mu);font-size:14px}
+</style></head><body>
+<div class="draft" id="bn" hidden></div>
+<header class="hero"><div class="wrap rv"><div class="eb" id="eb"></div><h1 id="ti"></h1><p id="in"></p><nav class="nav" id="nv"></nav></div></header>
+<main class="wrap" id="ch"></main>
+<footer><div class="wrap" id="ft"></div></footer>
+<script>
+const L=document.getElementById('d');
+(L?Promise.resolve(JSON.parse(L.textContent)):fetch('hanh-trinh.json?'+Date.now()).then(r=>r.json())).then(D=>{
+const $=s=>document.querySelector(s),E=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'),R=s=>E(s).replace(/\*([^*]+)\*/g,'<i>$1</i>'),S=D.site;
+document.title=S.page_title;$('#bn').textContent=S.banner||'';$('#bn').hidden=!S.banner;
+$('#eb').textContent=S.eyebrow;$('#ti').textContent=S.title;$('#in').textContent=S.intro;$('#ft').textContent=S.footer;
+$('#nv').innerHTML=D.chapters.map((c,i)=>`<a href="#c${i+1}">${E(c.num)} · ${E(c.title)}</a>`).join('');
+const fig=p=>`<figure><img src="${E(p.image)}" alt="${E(p.caption||'Ảnh')}" loading="lazy">${p.caption?`<figcaption>${E(p.caption)}</figcaption>`:''}</figure>`;
+$('#ch').innerHTML=D.chapters.map((c,i)=>{
+ let h=`<section class="c rv" id="c${i+1}"><div class="ch"><b>${E(c.num)}</b><div><h2>${E(c.title)}</h2><small>${E(c.small)}</small></div></div>`;
+ const lead=c.lead?`<p class="lead"${c.side_image?' style="margin-top:0"':''}>${R(c.lead)}</p>`:'',paras=(c.paras||[]).map(x=>`<p>${R(x)}</p>`).join(''),note=c.note?`<div class="todo">${R(c.note)}</div>`:'';
+ if(c.side_image)h+=`<div class="g two">${fig({image:c.side_image,caption:''})}<div>${lead}${paras}${note}</div></div>`;else h+=lead+paras;
+ if((c.stats||[]).length)h+=`<div class="st">${c.stats.map(x=>`<div><b>${E(x.b)}</b><span>${E(x.span)}</span></div>`).join('')}</div>`;
+ if((c.timeline||[]).length)h+=`<div class="tl">${c.timeline.map(x=>`<div class="it${x.k?' k':''}"><div class="d">${E(x.d)}</div><p>${R(x.p)}</p></div>`).join('')}</div>`;
+ if((c.pride||[]).length)h+=(c.pride_title?`<div class="sub">${E(c.pride_title)}</div>`:'')+`<div class="pr">${c.pride.map(x=>`<div><b>${E(x.b)}</b><p>${R(x.p)}</p></div>`).join('')}</div>`;
+ (c.galleries||[]).forEach(g=>{if((g.photos||[]).length)h+=`<div class="g${g.cols=='2'?' two':''}">${g.photos.map(fig).join('')}</div>`});
+ if(!c.side_image)h+=note;
+ return h+'</section>'}).join('');
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('on');io.unobserve(x.target)}}),{threshold:.08});
+document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+}).catch(()=>{document.querySelector('#ch').innerHTML='<p style="padding:30px 0">Không tải được nội dung. Hãy mở trang qua địa chỉ website.</p>'});
+</script></body></html>
