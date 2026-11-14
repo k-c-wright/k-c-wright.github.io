@@ -81,6 +81,19 @@
       color: var(--green); border: 1px solid var(--green);
       padding: 8px 13px; border-radius: 2px;
     }
+    .nav-links .nav-journey {
+      color: var(--green); font-weight: 600; border: 1.5px solid var(--green); border-radius: 999px;
+      padding: 7px 15px; animation: journey-ring 2.8s ease-out infinite;
+      transition: background-color .2s ease, color .2s ease;
+    }
+    .nav-links .nav-journey::after { content: " \2192"; display: inline-block; transition: transform .2s ease; }
+    .nav-links .nav-journey:hover { background: var(--sand); color: var(--green); }
+    .nav-links .nav-journey:hover::after { transform: translateX(3px); }
+    @keyframes journey-ring {
+      0% { box-shadow: 0 0 0 0 rgba(52,72,61,.38); }
+      70%, 100% { box-shadow: 0 0 0 9px rgba(52,72,61,0); }
+    }
+    @media (prefers-reduced-motion: reduce) { .nav-links .nav-journey { animation: none; } }
     .hero { padding: 106px 0 94px; border-bottom: 1px solid var(--line); }
     .hero-grid {
       display: grid; grid-template-columns: 1.15fr .85fr;
@@ -201,6 +214,7 @@
       .nav-links { width: 100%; gap: 21px; overflow-x: auto; padding: 3px 0 7px; }
       .nav-links a { white-space: nowrap; }
       .nav-links .nav-follow { padding: 0; border: 0; }
+      .nav-links .nav-journey { padding: 5px 13px; animation: none; }
       .hero { padding: 70px 0 65px; }
       .hero-grid, .section-heading, .about-grid, .content-intro, .featured-grid { grid-template-columns: 1fr; gap: 26px; }
       .hero-copy { max-width: 620px; }
@@ -400,7 +414,7 @@
         <a href="#goc-nhin" data-i18n>Góc nhìn</a>
         <a href="#noi-dung" data-i18n>Nội dung</a>
         <a href="#gioi-thieu" data-i18n>Giới thiệu</a>
-        <a href="hanh-trinh/" data-i18n>Hành trình</a>
+        <a class="nav-journey" href="hanh-trinh/" data-i18n>Hành trình</a>
         <a href="#doc-va-hoc" data-i18n>Đọc & học</a>
         <a class="nav-follow" href="#theo-doi" data-i18n>Theo dõi</a>
       </nav>

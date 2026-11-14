@@ -30,11 +30,15 @@ figure{margin:0}figure img{width:100%;display:block;border-radius:14px;border:1p
 .rv{opacity:0;transform:translateY(14px);transition:opacity .7s,transform .7s}.rv.on{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
 footer{margin-top:40px;padding:30px 0 50px;border-top:1px solid var(--ln);color:var(--mu);font-size:14px}
+.top{position:sticky;top:0;z-index:20;background:rgba(246,241,231,.93);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--ln);padding:calc(8px + env(safe-area-inset-top)) 0 8px}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--fo);text-decoration:none;border:1.5px solid var(--fo);border-radius:99px;padding:6px 16px;background:transparent;transition:background-color .2s}.back:hover{background:#fff}.back:focus-visible{outline:3px solid var(--go);outline-offset:3px}
+footer .back{margin-bottom:20px}
 </style></head><body>
 <div class="draft" id="bn" hidden></div>
+<div class="top"><div class="wrap"><a class="back" href="../">← Về trang chủ</a></div></div>
 <header class="hero"><div class="wrap rv"><div class="eb" id="eb"></div><h1 id="ti"></h1><p id="in"></p><nav class="nav" id="nv"></nav></div></header>
 <main class="wrap" id="ch"></main>
-<footer><div class="wrap" id="ft"></div></footer>
+<footer><div class="wrap"><a class="back" href="../">← Về trang chủ</a></div><div class="wrap" id="ft"></div></footer>
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Xem ảnh"><button class="x" aria-label="Đóng">×</button><button class="pv" aria-label="Ảnh trước">‹</button><img alt=""><p></p><button class="nx" aria-label="Ảnh sau">›</button></div>
 <script>
 const L=document.getElementById('d');
