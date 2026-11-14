@@ -265,8 +265,17 @@
      ]
     },
     {
-     "cols": "3",
-     "photos": []
+     "cols": "2",
+     "photos": [
+      {
+       "image": "images/image-mwg64stkmgw7.jpg",
+       "caption": "Sếp & các bạn đồng cấp"
+      },
+      {
+       "image": "images/image-mwg6a9xdt7vz.jpg",
+       "caption": "Tạm biệt Thái Lan"
+      }
+     ]
     }
    ],
    "note": ""
